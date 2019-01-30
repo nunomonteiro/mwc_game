@@ -267,8 +267,8 @@ MonoBehaviour:
   firstRowData:
   - Name
   - Mail
-  - WantsMore
   - Score
+  - WantsMore
   filenameNoExtension: scoreData
 --- !u!1 &556259503
 GameObject:
