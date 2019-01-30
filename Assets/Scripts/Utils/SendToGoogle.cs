@@ -32,9 +32,9 @@ public class SendToGoogle : MonoBehaviour {
         //Invoke("Test", 3);
     }
 
-    //void Test() {
-    //    Send("Nuno Monteiro2", "mail2@mail.com", "NO", "456");
-    //}
+    void Test() {
+        Send("Nuno Monteiro", "mail2@mail.com", "NO", "456");
+    }
 
     public void Send(string name, string mail, string wantsMore, string score) {
         string[] values = new string[entries.Length];
