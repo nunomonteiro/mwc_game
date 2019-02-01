@@ -9,8 +9,9 @@ public class LeaderboardScreen : MonoBehaviour {
     private ScoreSubmissionPopup _submissionPopup;
 
 	// Use this for initialization
-	void Start () {
-		
+	void Awake () {
+        _submissionPopup = _submissionPopupObj.GetComponent<ScoreSubmissionPopup>();
+        _submissionPopup.onScoreSuccessfullySubmited.AddListener(GameManager.Instance.GetUIManager().OnScoreSuccessfullySubmitted);
 	}
 	
 	// Update is called once per frame
@@ -19,11 +20,18 @@ public class LeaderboardScreen : MonoBehaviour {
 	}
 
     public void SetupForScore(int score) {
+        if (_submissionPopup == null)
+            _submissionPopup = _submissionPopupObj.GetComponent<ScoreSubmissionPopup>();
+
         _submissionPopupObj.SetActive(true);
         _submissionPopup.SetupForScore(score);
     }
 
     public void OnBackButtonPressed() {
         GameManager.Instance.GoBack();
+    }
+
+    public void OnScoreSuccessfullySubmitted() {
+        //TODO update scores with new score
     }
 }

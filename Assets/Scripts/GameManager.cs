@@ -59,7 +59,7 @@ public class GameManager : Singleton<GameManager> {
     }
 
     public void GoToScoreSubmission() {
-        _uiManager.GoToLeaderboard();
+        _uiManager.GoToLeaderboard(_latestScore);
     }
 
     public void GoBack() {
@@ -69,5 +69,10 @@ public class GameManager : Singleton<GameManager> {
 
     public ScoreManager GetScoreManager() {
         return _scoreManager;
+    }
+
+    public UIManager GetUIManager()
+    {
+        return _uiManager;
     }
 }

@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class ScoreSubmissionPopup : MonoBehaviour {
+
+    public UnityEvent onScoreSuccessfullySubmited;
 
     [SerializeField]
     private Text _txtScore;
@@ -20,8 +23,8 @@ public class ScoreSubmissionPopup : MonoBehaviour {
     private int _score;
 
 	// Use this for initialization
-	void Start () {
-		
+	void Awake () {
+
 	}
 	
 	// Update is called once per frame
@@ -33,10 +36,16 @@ public class ScoreSubmissionPopup : MonoBehaviour {
     {
         _score = score;
         _txtScore.text = score.ToString();
+        _inputName.text = "";
+        _inputMail.text = "";
+        _wantsToKnowMore.isOn = false;
     }
 
     public void OnSumbitButtonPressed() {
         GameManager.Instance.GetScoreManager().PostNewScore(_inputName.text, _inputMail.text, _score, _wantsToKnowMore.isOn);
+        onScoreSuccessfullySubmited.Invoke();
+
+        Invoke("OnCloseButtonPressed",.5f); //Auto close popup!
     }
 
     public void OnCloseButtonPressed() {
