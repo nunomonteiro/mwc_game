@@ -5,6 +5,11 @@ using UnityEngine;
 public class LeaderboardScreen : MonoBehaviour {
 
     [SerializeField]
+    private GameObject _leaderboardEntryPrefab;
+    [SerializeField]
+    private Transform _scrollParent;
+
+    [SerializeField]
     private GameObject _submissionPopupObj;
     private ScoreSubmissionPopup _submissionPopup;
 
@@ -19,7 +24,29 @@ public class LeaderboardScreen : MonoBehaviour {
 		
 	}
 
+    void ListScores() {
+        //Clear list
+        foreach (Transform child in _scrollParent)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        ScoreManager scoreManager = GameManager.Instance.GetScoreManager();
+        scoreManager.UpdateScores();
+        List<CSVScoreEntry> scores = scoreManager.GetSortedScores();
+
+        int place = 1;
+        foreach (CSVScoreEntry entry in scores)
+        {
+            CreateScoreEntry(place,entry);
+            place++;
+        }
+    }
+
     public void SetupForScore(int score) {
+        //Fill in the scores scroll from scoreManager
+        ListScores();
+
         if (_submissionPopup == null)
             _submissionPopup = _submissionPopupObj.GetComponent<ScoreSubmissionPopup>();
 
@@ -28,10 +55,16 @@ public class LeaderboardScreen : MonoBehaviour {
     }
 
     public void OnBackButtonPressed() {
-        GameManager.Instance.GoBack();
+        ListScores();
     }
 
     public void OnScoreSuccessfullySubmitted() {
         //TODO update scores with new score
+    }
+
+    void CreateScoreEntry(int place, CSVScoreEntry entry) {
+        GameObject obj = (GameObject)Instantiate(_leaderboardEntryPrefab, _scrollParent);
+        LeaderboardEntry leaderboardEntry = obj.GetComponent<LeaderboardEntry>();
+        leaderboardEntry.SetupWithScoreEntry(place, entry);
     }
 }

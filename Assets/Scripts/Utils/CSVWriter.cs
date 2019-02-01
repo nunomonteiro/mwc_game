@@ -20,11 +20,11 @@ public class CSVWriter : MonoBehaviour
         StreamWriter outStream = null;
             
         //Check if file exists, if it doesn't create it and add first line
-        if (!System.IO.File.Exists(getPath())) {
+        if (!System.IO.File.Exists(GetPath())) {
             outStream = CreateCSVFile();
         } else {
             //Else open the existing file and add the new entry
-            outStream = new StreamWriter(getPath(),true);
+            outStream = new StreamWriter(GetPath(),true);
         }
 
         string line = CreateLineEntry(values);
@@ -43,7 +43,7 @@ public class CSVWriter : MonoBehaviour
     }
 
     private StreamWriter CreateCSVFile() {
-        StreamWriter outStream = System.IO.File.CreateText(getPath());
+        StreamWriter outStream = System.IO.File.CreateText(GetPath());
 
         string line = CreateLineEntry(firstRowData);
         outStream.WriteLine(line);
@@ -52,7 +52,7 @@ public class CSVWriter : MonoBehaviour
     }
 
     // Following method is used to retrive the relative path as device platform
-    private string getPath()
+    public string GetPath()
     {
 #if UNITY_EDITOR
         return Application.dataPath+"/" + filenameNoExtension + ".csv";
