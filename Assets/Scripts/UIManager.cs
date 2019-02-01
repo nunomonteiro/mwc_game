@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum ScreenState{
     MAIN_MENU,
@@ -19,7 +20,13 @@ public class UIManager : MonoBehaviour {
     private GameObject _endScreen;
     [SerializeField]
     private GameObject _leaderboardScreen;
+    [SerializeField]
+    private Slider _slider;
 
+
+
+    private int _gameTime;
+    private bool _startTime;
     private ScreenState _state;
     private GameObject _activeScreen;
 
@@ -42,8 +49,16 @@ public class UIManager : MonoBehaviour {
                 _activeScreen = _leaderboardScreen;
                 break;
         }
-
         _activeScreen.SetActive(true);
+
+    }
+
+    private void Update()
+    {
+        if (_startTime)
+        {
+            StartCoroutine(_timeChanger());
+        }
     }
 
     public void GoToMainMenu() {
@@ -67,4 +82,39 @@ public class UIManager : MonoBehaviour {
     public void GoToLeaderboard() {
         ChangeState(ScreenState.LEADERBOARD);
     }
+
+    public void BuildSlider(int time)
+    {
+        _gameTime = time;
+        _slider.maxValue = _gameTime;
+        _slider.value = _gameTime;
+    }
+
+
+    IEnumerator _timeChanger()
+    {
+        _startTime = false;
+        yield return new WaitForSeconds(1f);
+        _slider.value -= 1f;
+        if(_slider.value > 0)
+        {
+            _startTime = true;
+        }
+        else
+        {
+            _startTime = false;
+        }
+
+    }
+
+    public bool TimeHasEnded()
+    {
+        return _slider.value <= 0;
+    }
+
+    public void StartTimer()
+    {
+        _startTime = true;
+    }
+
 }

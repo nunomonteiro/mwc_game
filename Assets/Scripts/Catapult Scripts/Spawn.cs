@@ -6,8 +6,8 @@ public class Spawn : MonoBehaviour {
 
     public GameObject birdPrefab;
 
-    public GameObject spawnPosition;
-  
+    public GameObject spawn;
+
     private void Start()
     {
         spawnNext();
@@ -15,26 +15,14 @@ public class Spawn : MonoBehaviour {
 
     void FixedUpdate()
     {
-
+        if(Vector2.Distance(spawn.transform.position,transform.position) > 3f)
+        {
+            spawnNext();
+        }
     }
 
     void spawnNext()
     {
-        Instantiate(birdPrefab, transform.position, Quaternion.identity);
-    }
-
-    void OnTriggerExit2D(Collider2D co)
-    {
-
-    }
-
-    bool sceneMoving()
-    {
-        // Find all Rigidbodies, see if any is still moving a lot
-        Rigidbody2D[] bodies = FindObjectsOfType(typeof(Rigidbody2D)) as Rigidbody2D[];
-        foreach (Rigidbody2D rb in bodies)
-            if (rb.velocity.sqrMagnitude > 5)
-                return true;
-        return false;
+        spawn = Instantiate(birdPrefab, transform.position, Quaternion.identity) as GameObject;
     }
 }

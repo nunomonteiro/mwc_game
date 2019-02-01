@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114686709177096450}
   - component: {fileID: 114175448166811904}
   m_Layer: 0
-  m_Name: bird
+  m_Name: stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,7 +86,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1785646390702680}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ead198964e3f4c04aac54de5790a627d, type: 3}
   m_Name: 

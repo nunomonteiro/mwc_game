@@ -12,14 +12,18 @@ public enum GameState {
 
 public class GameManager : Singleton<GameManager> {
 
+    public int TotalTime;
+
     [SerializeField]
     private UIManager _uiManager;
     [SerializeField]
     private ScoreManager _scoreManager;
 
     private GameState _state;
-    private float _gameStartTime;
+    private int _gameStartTime;
     private int _latestScore;
+
+    public GameObject _game;
 
 	// Use this for initialization
     protected override void Awake() {
@@ -29,10 +33,11 @@ public class GameManager : Singleton<GameManager> {
 	
 	// Update is called once per frame
 	void Update () {
-        if ((_state == GameState.GAME) && (Time.time - _gameStartTime > 3f) && (_state != GameState.END_SCREEN)) {
-            EndGame(987);
+        if (_uiManager.TimeHasEnded())
+        {
+            EndGame(0);
         }
-	}
+    }
 
     void ChangeState(GameState state) {
         _state = state;
@@ -41,7 +46,9 @@ public class GameManager : Singleton<GameManager> {
     public void StartGame()
     {
         _uiManager.GoToGame();
-        _gameStartTime = Time.time;
+        Instantiate(_game, _game.transform.position,_game.transform.rotation);
+        _uiManager.BuildSlider(TotalTime);
+        _uiManager.StartTimer();
         ChangeState(GameState.GAME);
     }
 
