@@ -12,27 +12,36 @@ public enum GameState {
 
 public class GameManager : Singleton<GameManager> {
 
+    public int TotalTime;
+
     [SerializeField]
     private UIManager _uiManager;
     [SerializeField]
     private ScoreManager _scoreManager;
+    [SerializeField]
+    private RewardsController _rewardsController;
 
     private GameState _state;
-    private float _gameStartTime;
+    private int _gameStartTime;
     private int _latestScore;
+
+    public GameObject _gamePrefab;
+    private GameObject _gameInstance;
 
 	// Use this for initialization
     protected override void Awake() {
         base.Awake(); 
+        _uiManager.BuildSlider(TotalTime); //FIX THIS BETTER
         _uiManager.GoToMainMenu();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if ((_state == GameState.GAME) && (Time.time - _gameStartTime > 3f) && (_state != GameState.END_SCREEN)) {
-            EndGame(987);
+        if (_uiManager.TimeHasEnded() && _state != GameState.END_SCREEN)
+        {
+            EndGame();
         }
-	}
+    }
 
     void ChangeState(GameState state) {
         _state = state;
@@ -41,13 +50,32 @@ public class GameManager : Singleton<GameManager> {
     public void StartGame()
     {
         _uiManager.GoToGame();
-        _gameStartTime = Time.time;
+        _gameInstance = (GameObject)Instantiate(_gamePrefab, _gamePrefab.transform.position,_gamePrefab.transform.rotation);
+        _uiManager.BuildSlider(TotalTime); 
+        _uiManager.StartTimer();
         ChangeState(GameState.GAME);
+
+        _rewardsController.caughtRing1 = false;
+        _rewardsController.caughtRing2 = false;
+        _rewardsController.caughtRing3 = false;
+        _rewardsController.timeLeft = TotalTime;
     }
 
-    public void EndGame(int score) {
+    public void EndGame() {
+        Destroy(_gameInstance);
+
+        _rewardsController.timeLeft = (int)_uiManager.GetTimeLeft();
+
+        //FIX REMOVE THIS FROM HERE
+        int timeScore = ((int)_rewardsController.timeLeft) * 100; //TODO get from proper place!
+        int advantage1Score = _rewardsController.caughtRing1 ? 1500 : 0; //TODO get from proper place!
+        int advantage2Score = _rewardsController.caughtRing2 ? 1000 : 0; //TODO get from proper place!
+        int advantage3Score = _rewardsController.caughtRing3 ? 2000 : 0; //TODO get from proper place!
+
+        int totalScore = timeScore + advantage1Score + advantage2Score + advantage3Score;
+        _latestScore = totalScore;
+
         ChangeState(GameState.END_SCREEN);
-        _latestScore = score;
         _uiManager.GoToEndScreen();
     }
 
@@ -67,5 +95,22 @@ public class GameManager : Singleton<GameManager> {
     public UIManager GetUIManager()
     {
         return _uiManager;
+    }
+
+    public void WentThroughRing(GameObject ring)
+    {
+        if (ring.name.Contains("ring1")) {
+            _rewardsController.caughtRing1 = true;   
+        } else if (ring.name.Contains("ring2"))
+        {
+            _rewardsController.caughtRing2 = true;
+        } else if (ring.name.Contains("ring3"))
+        {
+            _rewardsController.caughtRing3 = true;
+        }
+    }
+
+    public RewardsController GetRewardsController() {
+        return _rewardsController;
     }
 }

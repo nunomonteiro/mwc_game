@@ -55,10 +55,11 @@ public class LeaderboardScreen : MonoBehaviour {
     }
 
     public void OnBackButtonPressed() {
-        ListScores();
+        GameManager.Instance.GoBack();
     }
 
     public void OnScoreSuccessfullySubmitted() {
+        ListScores();
         //TODO update scores with new score
     }
 

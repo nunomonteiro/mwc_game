@@ -69,7 +69,11 @@ public class ScoreManager : MonoBehaviour {
             }
 
             _sortedScores.Sort((x, y) => y.score.CompareTo(x.score));
+
+            reader.Close();
+            reader.Dispose();
         }
+
     }
 
     public void UpdateScores() {
