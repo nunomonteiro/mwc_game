@@ -14,9 +14,6 @@ public class PullAndRelease : MonoBehaviour {
     bool _isInGame;
     private bool _isColliding;
 
-    //TODO
-    GameManager _game;
-
     // Use this for initialization
     void Start()
     {
@@ -24,7 +21,6 @@ public class PullAndRelease : MonoBehaviour {
         startPos = transform.position;
         _anim = GameObject.FindGameObjectWithTag("Arm").GetComponent<Animator>();
         _isInGame = true;
-        _game = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
     }
 
     void OnMouseUp()
@@ -36,9 +32,6 @@ public class PullAndRelease : MonoBehaviour {
 
         _isInGame = false;
     }
-
-
-
 
     void OnMouseDrag()
     {
@@ -59,8 +52,8 @@ public class PullAndRelease : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("============================================== Fiz trigger ==============================================");
-        _game.WentThroughRing(collision.gameObject);
+        //Debug.Log("============================================== Fiz trigger ==============================================");
+        GameManager.Instance.WentThroughRing(collision.gameObject);
     }
 
     void OnCollisionEnter2D(Collision2D coll)
@@ -68,13 +61,18 @@ public class PullAndRelease : MonoBehaviour {
         if (_isColliding)
             return;
 
+        if (coll.collider.gameObject.tag == "Obstacle")
+            GameManager.Instance.OnTouchedBarrier();
+
         _isColliding = true;
-        Invoke("_endGame",2);
+
+        if (!IsInvoking("NotifyEndTurn"))
+            Invoke("NotifyEndTurn",2);
     }
 
     //TODO
-    public void _endGame()
+    void NotifyEndTurn()
     {
-        _game.EndGame();
+        GameManager.Instance.EndTurn();
     }
 }

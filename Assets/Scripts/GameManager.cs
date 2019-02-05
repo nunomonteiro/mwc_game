@@ -13,6 +13,12 @@ public enum GameState {
 public class GameManager : Singleton<GameManager> {
 
     public int TotalTime;
+    public int TotalAttempts;
+    public int scoreFromRing1;
+    public int scoreFromRing2;
+    public int scoreFromRing3;
+    public int scoreFromTime;
+    public GameObject _gamePrefab;
 
     [SerializeField]
     private UIManager _uiManager;
@@ -24,14 +30,17 @@ public class GameManager : Singleton<GameManager> {
     private GameState _state;
     private int _gameStartTime;
     private int _latestScore;
+    private bool _touchedBarrier;
+    private Spawner _spawner;
 
-    public GameObject _gamePrefab;
     private GameObject _gameInstance;
+    private int _amountAttempts;
+    private Attempt _currentAttempt;
 
 	// Use this for initialization
     protected override void Awake() {
         base.Awake(); 
-        _uiManager.BuildSlider(TotalTime); //FIX THIS BETTER
+        //_uiManager.StartTimer(TotalTime); //FIX THIS BETTER
         _uiManager.GoToMainMenu();
 	}
 	
@@ -39,7 +48,7 @@ public class GameManager : Singleton<GameManager> {
 	void Update () {
         if (_uiManager.TimeHasEnded() && _state != GameState.END_SCREEN)
         {
-            EndGame();
+            EndTurn();
         }
     }
 
@@ -49,28 +58,52 @@ public class GameManager : Singleton<GameManager> {
 
     public void StartGame()
     {
-        _uiManager.GoToGame();
-        _gameInstance = (GameObject)Instantiate(_gamePrefab, _gamePrefab.transform.position,_gamePrefab.transform.rotation);
-        _uiManager.BuildSlider(TotalTime); 
-        _uiManager.StartTimer();
-        ChangeState(GameState.GAME);
+        _rewardsController.Reset();
 
-        _rewardsController.caughtRing1 = false;
-        _rewardsController.caughtRing2 = false;
-        _rewardsController.caughtRing3 = false;
-        _rewardsController.timeLeft = TotalTime;
+        _amountAttempts = TotalAttempts;
+        _uiManager.GoToGame(TotalAttempts);
+        _uiManager.StartTimer(TotalTime);
+
+        _gameInstance = (GameObject)Instantiate(_gamePrefab, _gamePrefab.transform.position, _gamePrefab.transform.rotation);
+        _spawner = _gameInstance.GetComponentInChildren<Spawner>();
+
+        StartTurn();
+
+        ChangeState(GameState.GAME);
     }
 
-    public void EndGame() {
+    void StartTurn() {
+        _spawner.SpawnProjectile();
+        _currentAttempt = new Attempt();
+
+        _touchedBarrier = false;
+    }
+
+    public void EndTurn() {
+        _uiManager.LostAttempt();
+
+        _amountAttempts--;
+        //TODO update UI with attempt number
+        _rewardsController.AddNewAttempt(_currentAttempt);
+
+        if (_amountAttempts <= 0)
+            EndGame();
+        else {
+            StartTurn();
+        }
+
+
+    }
+
+    void EndGame() {
         Destroy(_gameInstance);
 
         _rewardsController.timeLeft = (int)_uiManager.GetTimeLeft();
 
-        //FIX REMOVE THIS FROM HERE
-        int timeScore = ((int)_rewardsController.timeLeft) * 100; //TODO get from proper place!
-        int advantage1Score = _rewardsController.caughtRing1 ? 1500 : 0; //TODO get from proper place!
-        int advantage2Score = _rewardsController.caughtRing2 ? 1000 : 0; //TODO get from proper place!
-        int advantage3Score = _rewardsController.caughtRing3 ? 2000 : 0; //TODO get from proper place!
+        int timeScore = ((int)_rewardsController.timeLeft) * scoreFromTime;
+        int advantage1Score = _rewardsController.ScoreForRing(1);
+        int advantage2Score = _rewardsController.ScoreForRing(2);
+        int advantage3Score = _rewardsController.ScoreForRing(3);
 
         int totalScore = timeScore + advantage1Score + advantage2Score + advantage3Score;
         _latestScore = totalScore;
@@ -97,20 +130,34 @@ public class GameManager : Singleton<GameManager> {
         return _uiManager;
     }
 
+    public void OnTouchedBarrier() {
+        _touchedBarrier = true;
+    }
+
     public void WentThroughRing(GameObject ring)
     {
+        //Don't take into account further touches after having touched a barrier
+        if (_touchedBarrier)
+            return;
+
         if (ring.name.Contains("ring1")) {
-            _rewardsController.caughtRing1 = true;   
+            _currentAttempt.caughtRing1 = true;   
         } else if (ring.name.Contains("ring2"))
         {
-            _rewardsController.caughtRing2 = true;
+            _currentAttempt.caughtRing2 = true;
         } else if (ring.name.Contains("ring3"))
         {
-            _rewardsController.caughtRing3 = true;
+            _currentAttempt.caughtRing3 = true;
         }
     }
 
     public RewardsController GetRewardsController() {
         return _rewardsController;
+    }
+
+    public Transform GetGameInstanceRoot() {
+        if (_gameInstance != null)
+            return _gameInstance.transform;
+        return null;
     }
 }

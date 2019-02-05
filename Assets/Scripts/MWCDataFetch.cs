@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class MWCDataFetch : MonoBehaviour {
 
@@ -32,9 +33,20 @@ public class MWCDataFetch : MonoBehaviour {
                 }  
             }
         };
-        StartCoroutine(GoogleSheetsDataFetcher.DownloadCSVCoroutine(DOC_ID, commCallback, true, LOCAL_FILENAME));
+
+        //Fetch the data from the remote sheet
+        if (InternetAvailability.HasInternet()) {
+            StartCoroutine(GoogleSheetsDataFetcher.DownloadCSVCoroutine(DOC_ID, commCallback, true, LOCAL_FILENAME));    
+        } else {
+            LocalFetchContent(LOCAL_FILENAME, commCallback);
+        }
 	}
 	
+    void LocalFetchContent(string filename, Action<string> action) {
+        string text = File.ReadAllText("Assets/ Resources/" + filename + ".csv");
+        action(text);
+    }
+
 	// Update is called once per frame
 	void Update () {
 		

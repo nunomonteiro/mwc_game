@@ -11,6 +11,9 @@ public struct CSVScoreEntry {
 
 public class ScoreManager : MonoBehaviour {
 
+    public const string SCORE_DOC_ID = "1lXH8ha690B-zZWmSIl8t6g5XgvgpBRjw0lty5BxtP4Y";
+    public const string LOCAL_FILENAME = "sheetScores";
+
     private SendToGoogle _sendToGoogle;
     private CSVWriter _csvWriter;
     private List<CSVScoreEntry> _sortedScores;
@@ -40,40 +43,43 @@ public class ScoreManager : MonoBehaviour {
 
         _csvWriter.AddNewEntry(values);
 
-        //TODO only do this if we know that there's internet available
-        //_sendToGoogle.Send(name, mail, wantsMore ? "YES" : "NO", score.ToString());
-
-        //TODO add score to local list to showcase top winners
+        if (InternetAvailability.HasInternet())
+        {
+            _sendToGoogle.Send(name, mail, wantsMore ? "YES" : "NO", score.ToString());
+        } 
     }
 
     void LoadScores() {
         _sortedScores = new List<CSVScoreEntry>();
 
         //TODO check for internet connection and get the scores from google sheets 
-
-        //Check for file existence and load the stored scores;
-        if (System.IO.File.Exists(_csvWriter.GetPath()))
-        {
-            StreamReader reader = new StreamReader(_csvWriter.GetPath());    
-
-            reader.ReadLine(); //Discard first line because it's the csv columns names
-            while (true)
+        if (InternetAvailability.HasInternet()) {
+            ;
+            //            StartCoroutine(GoogleSheetsDataFetcher.DownloadCSVCoroutine(SCORE_DOC_ID, commCallback, true, LOCAL_FILENAME));    
+        } else {
+            //Check for file existence and load the stored scores;
+            if (System.IO.File.Exists(_csvWriter.GetPath()))
             {
-                string line = reader.ReadLine();
-                if (line == null)
+                StreamReader reader = new StreamReader(_csvWriter.GetPath());
+
+                reader.ReadLine(); //Discard first line because it's the csv columns names
+                while (true)
                 {
-                    break;
+                    string line = reader.ReadLine();
+                    if (line == null)
+                    {
+                        break;
+                    }
+
+                    ProcessScoreLine(line);
                 }
 
-                ProcessScoreLine(line);
-            }
+                _sortedScores.Sort((x, y) => y.score.CompareTo(x.score));
 
-            _sortedScores.Sort((x, y) => y.score.CompareTo(x.score));
-
-            reader.Close();
-            reader.Dispose();
+                reader.Close();
+                reader.Dispose();
+            }   
         }
-
     }
 
     public void UpdateScores() {

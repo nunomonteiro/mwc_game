@@ -31,6 +31,8 @@ public class Advantage : MonoBehaviour
     {
         _title.text = title;
         _text.text = text;
-        WWWImageFetcher.FillImageFromURL(_image, imgURL);
+
+        if (InternetAvailability.HasInternet())
+            WWWImageFetcher.FillImageFromURL(_image, imgURL);
     }
 }

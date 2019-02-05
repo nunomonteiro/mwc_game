@@ -29,13 +29,26 @@ public class UIManager : MonoBehaviour {
     [SerializeField]
     private Slider _slider;
 
+    [SerializeField]
+    private GameObject _attemptPrefab;
+
+    [SerializeField]
+    private Transform _attemptsParent;
+
+    private List<GameObject> _attemptsUI;
+
     private int _gameTime;
-    private bool _startTime;
+    private bool _startedTimer
+;
     private ScreenState _state;
     private GameObject _activeScreen;
+    private float _timestampTimeStart;
+    private int _remainingAttempts;
+    private int _totalAttempts;
 
     private void Awake()
     {
+        _attemptsUI = new List<GameObject>();
         _endScreen = _endScreenObj.GetComponent<EndScreen>();
         _leaderboardScreen = _leaderboardScreenObj.GetComponent<LeaderboardScreen>();
 
@@ -53,7 +66,6 @@ public class UIManager : MonoBehaviour {
 
         switch(state) {
             case ScreenState.MAIN_MENU:
-
                 _activeScreen = _mainScreenObj;
                 break;
             case ScreenState.GAME:
@@ -72,9 +84,9 @@ public class UIManager : MonoBehaviour {
 
     private void Update()
     {
-        if (_startTime)
+        if (_startedTimer)
         {
-            StartCoroutine(_timeChanger());
+            _slider.value -= Time.deltaTime;
         }
     }
 
@@ -82,12 +94,38 @@ public class UIManager : MonoBehaviour {
         ChangeState(ScreenState.MAIN_MENU);
     }
 
-    public void GoToGame()
+    public void GoToGame(int totalAttempts)
     {
+        //Remove previous ones
+        foreach(Transform child in _attemptsParent) {
+            Destroy(child.gameObject);
+        }
+            
+        _attemptsUI.Clear();
+
+        _totalAttempts = totalAttempts;
+        _remainingAttempts = totalAttempts;
+
+        //Create attempt prefabs and add them to attempts parent
+        for (int i = 0; i < totalAttempts; i++) {
+            GameObject attempt = Instantiate(_attemptPrefab, _attemptsParent) as GameObject;
+            _attemptsUI.Add(attempt);
+        }
         ChangeState(ScreenState.GAME);
     }
 
+    public void LostAttempt() {
+        //Hide another life
+        _attemptsUI[_totalAttempts - _remainingAttempts].SetActive(false);
+        _remainingAttempts--;
+    }
+
+    void LeaveGame() {
+        _startedTimer = false;
+    }
+
     public void GoToEndScreen() {
+        LeaveGame();
         _endScreen.Setup();
         ChangeState(ScreenState.END_SCREEN);
     }
@@ -102,42 +140,22 @@ public class UIManager : MonoBehaviour {
         ChangeState(ScreenState.LEADERBOARD);
     }
 
-    public void BuildSlider(int time)
+    public void StartTimer(int time)
     {
         _gameTime = time;
         _slider.maxValue = _gameTime;
         _slider.value = _gameTime;
-    }
-
-
-    IEnumerator _timeChanger()
-    {
-        _startTime = false;
-        yield return new WaitForSeconds(1f);
-        _slider.value -= 1f;
-        if(_slider.value > 0)
-        {
-            _startTime = true;
-        }
-        else
-        {
-            _startTime = false;
-        }
-
+        _timestampTimeStart = Time.time;
+        _startedTimer = true;
     }
 
     public bool TimeHasEnded()
     {
-        return _slider.value <= 0;
+        return _slider.value <= 0 && _startedTimer;
     }
 
     public float GetTimeLeft() {
         return _slider.value;
-    }
-
-    public void StartTimer()
-    {
-        _startTime = true;
     }
 
     public void OnScoreSuccessfullySubmitted()
