@@ -53,10 +53,10 @@ public class ScoreManager : MonoBehaviour {
         _sortedScores = new List<CSVScoreEntry>();
 
         //TODO check for internet connection and get the scores from google sheets 
-        if (InternetAvailability.HasInternet()) {
-            ;
-            //            StartCoroutine(GoogleSheetsDataFetcher.DownloadCSVCoroutine(SCORE_DOC_ID, commCallback, true, LOCAL_FILENAME));    
-        } else {
+        //if (InternetAvailability.HasInternet()) {
+        //    ;
+        //    //            StartCoroutine(GoogleSheetsDataFetcher.DownloadCSVCoroutine(SCORE_DOC_ID, commCallback, true, LOCAL_FILENAME));    
+        //} else {
             //Check for file existence and load the stored scores;
             if (System.IO.File.Exists(_csvWriter.GetPath()))
             {
@@ -79,7 +79,7 @@ public class ScoreManager : MonoBehaviour {
                 reader.Close();
                 reader.Dispose();
             }   
-        }
+        //}
     }
 
     public void UpdateScores() {

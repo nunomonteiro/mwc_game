@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4345968835568166}
   - component: {fileID: 212586938185103974}
   - component: {fileID: 95192429189064654}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: catapult_arm
   m_TagString: Arm
   m_Icon: {fileID: 0}
