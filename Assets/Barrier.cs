@@ -2,7 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainMenuScreen : MonoBehaviour {
+public class Barrier : MonoBehaviour {
+
+    public float speed;
+
+    [SerializeField]
+    private Transform _startPoint;
+
+    [SerializeField]
+    private Transform _endPoint;
 
 	// Use this for initialization
 	void Start () {
@@ -13,8 +21,4 @@ public class MainMenuScreen : MonoBehaviour {
 	void Update () {
 		
 	}
-
-    public void OnPlayButtonPressed() {
-        GameManager.Instance.StartCountdown();
-    }
 }

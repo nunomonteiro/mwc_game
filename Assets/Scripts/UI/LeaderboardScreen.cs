@@ -68,4 +68,8 @@ public class LeaderboardScreen : MonoBehaviour {
         LeaderboardEntry leaderboardEntry = obj.GetComponent<LeaderboardEntry>();
         leaderboardEntry.SetupWithScoreEntry(place, entry);
     }
+
+    public void OnRefreshScores() {
+        ListScores();
+    }
 }

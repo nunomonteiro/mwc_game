@@ -14,49 +14,50 @@ public class BarrierMovement : MonoBehaviour {
 
     void Start()
     {
-        startPoint = transform.position;
-        moveDown();
-        isMovingDown = true;
+        iTween.MoveBy(gameObject, iTween.Hash("y", BarrierMaxDistanceMoving, "time", 0.75f, "easeType", "easeInOutExpo", "loopType", "pingPong"));
+
+        //startPoint = transform.position;
+        //moveDown();
+        //isMovingDown = true;
     }
 
-    void Update()
-    {
-        if (isMovingDown)
-        {
-            moveDown();
-        }
-        else
-        {
-            moveUp();
-        }
+    //void Update()
+    //{
+    //    if (isMovingDown)
+    //    {
+    //        moveDown();
+    //    }
+    //    else
+    //    {
+    //        moveUp();
+    //    }
 
-    }
+    //}
 
-    void moveDown()
-    {
-        if (Vector2.Distance(transform.position, startPoint) < BarrierMaxDistanceMoving)
-        {
-            transform.position -= new Vector3(0, Velocity, 0);
+    //void moveDown()
+    //{
+    //    if (Vector2.Distance(transform.position, startPoint) < BarrierMaxDistanceMoving)
+    //    {
+    //        transform.position -= new Vector3(0, Velocity, 0);
 
-        }
-        else
-        {
-            isMovingDown = false;
-        }
-    }
+    //    }
+    //    else
+    //    {
+    //        isMovingDown = false;
+    //    }
+    //}
 
-    void moveUp()
-    {
-        if (Vector2.Distance(transform.position, startPoint)  > 0f)
-        {
-            transform.position += new Vector3(0, Velocity, 0);
+    //void moveUp()
+    //{
+    //    if (Vector2.Distance(transform.position, startPoint)  > 0f)
+    //    {
+    //        transform.position += new Vector3(0, Velocity, 0);
 
-        }
-        else
-        {
-            isMovingDown = true;
-        }
-    }
-
+    //    }
+    //    else
+    //    {
+    //        isMovingDown = true;
+    //    }
+    //}
 
 }

@@ -101,4 +101,10 @@ public class ScoreManager : MonoBehaviour {
     public List<CSVScoreEntry> GetSortedScores() {
         return _sortedScores;
     }
+
+    public void DeleteScoresFile() {
+        if (System.IO.File.Exists(_csvWriter.GetPath())) {
+            System.IO.File.Delete(_csvWriter.GetPath());
+        }
+    }
 }

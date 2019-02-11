@@ -56,6 +56,10 @@ public class GameManager : Singleton<GameManager> {
         _state = state;
     }
 
+    public void StartCountdown() {
+        _uiManager.GoToPreGame();
+    }
+
     public void StartGame()
     {
         _rewardsController.Reset();
@@ -113,6 +117,7 @@ public class GameManager : Singleton<GameManager> {
     }
 
     public void GoToScoreSubmission() {
+        ChangeState(GameState.LEADERBOARD);
         _uiManager.GoToLeaderboard(_latestScore);
     }
 
@@ -159,5 +164,16 @@ public class GameManager : Singleton<GameManager> {
         if (_gameInstance != null)
             return _gameInstance.transform;
         return null;
+    }
+
+    public void ClearLeaderboardEntries() {
+        if (_scoreManager != null) {
+            _scoreManager.DeleteScoresFile();
+        }
+
+        //Check if we're in the leaderboard screen and immediately update it
+        if (_state == GameState.LEADERBOARD) {
+            GetUIManager().RefreshLeaderboard();
+        }
     }
 }

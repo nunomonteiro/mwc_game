@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public enum ScreenState{
     MAIN_MENU,
+    PRE_GAME,
     GAME,
     END_SCREEN,
     LEADERBOARD,
@@ -14,6 +15,9 @@ public class UIManager : MonoBehaviour {
 
     [SerializeField]
     private GameObject _mainScreenObj;
+
+    [SerializeField]
+    private GameObject _preGameScreenObj;
 
     [SerializeField]
     private GameObject _gameScreenObj;
@@ -54,6 +58,7 @@ public class UIManager : MonoBehaviour {
 
         //disable all screens
         _mainScreenObj.SetActive(false);
+        _preGameScreenObj.SetActive(false);
         _gameScreenObj.SetActive(false);
         _endScreenObj.SetActive(false);
         _leaderboardScreenObj.SetActive(false);
@@ -67,6 +72,9 @@ public class UIManager : MonoBehaviour {
         switch(state) {
             case ScreenState.MAIN_MENU:
                 _activeScreen = _mainScreenObj;
+                break;
+            case ScreenState.PRE_GAME:
+                _activeScreen = _preGameScreenObj;
                 break;
             case ScreenState.GAME:
                 _activeScreen = _gameScreenObj;
@@ -92,6 +100,10 @@ public class UIManager : MonoBehaviour {
 
     public void GoToMainMenu() {
         ChangeState(ScreenState.MAIN_MENU);
+    }
+
+    public void GoToPreGame() {
+        ChangeState(ScreenState.PRE_GAME);
     }
 
     public void GoToGame(int totalAttempts)
@@ -138,6 +150,10 @@ public class UIManager : MonoBehaviour {
     public void GoToLeaderboard(int score) {
         _leaderboardScreen.SetupForScore(score);
         ChangeState(ScreenState.LEADERBOARD);
+    }
+
+    public void RefreshLeaderboard() {
+        _leaderboardScreen.OnRefreshScores();
     }
 
     public void StartTimer(int time)
