@@ -25,6 +25,8 @@ public class EndScreen : MonoBehaviour {
     [SerializeField]
     private Text _txtTimeScore;
     [SerializeField]
+    private Text _txtLivesScore;
+    [SerializeField]
     private Image _imgAdvantage1;
     [SerializeField]
     private Image _imgAdvantage2;
@@ -62,14 +64,16 @@ public class EndScreen : MonoBehaviour {
         int advantage1Score = rewardsController.TimesCaughtRing1() * GameManager.Instance.scoreFromRing1;
         int advantage2Score = rewardsController.TimesCaughtRing2() * GameManager.Instance.scoreFromRing2;
         int advantage3Score = rewardsController.TimesCaughtRing3() * GameManager.Instance.scoreFromRing3;
+        int livesScore = GameManager.Instance.GetAttemptsLeft() * GameManager.Instance.scoreFromLives;
 
         _txtTimeScore.text = timeScore.ToString();
+        _txtLivesScore.text = livesScore.ToString();
 
         SolveScoreForAdvantage(advantage1Score, _imgAdvantage1, _txtAdvantage1Score);
         SolveScoreForAdvantage(advantage2Score, _imgAdvantage2, _txtAdvantage2Score);
         SolveScoreForAdvantage(advantage3Score, _imgAdvantage3, _txtAdvantage3Score);
 
-        _txtFinalScore.text = (timeScore + advantage1Score + advantage2Score + advantage3Score).ToString();
+        _txtFinalScore.text = (timeScore + advantage1Score + advantage2Score + advantage3Score + livesScore).ToString();
     }
 
     public void OnRetryButtonPressed() {

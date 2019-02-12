@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PullAndRelease : MonoBehaviour {
+public class Projectile : MonoBehaviour {
 
     // The default Position
     Vector2 startPos;
@@ -62,7 +62,7 @@ public class PullAndRelease : MonoBehaviour {
             return;
 
         if (coll.collider.gameObject.tag == "Obstacle")
-            GameManager.Instance.OnTouchedBarrier();
+            GameManager.Instance.OnTouchedBarrier(coll.collider.gameObject);
 
         _isColliding = true;
 

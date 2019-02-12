@@ -3,22 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Barrier : MonoBehaviour {
+    
+    public float Velocity;
 
-    public float speed;
+    public float BarrierMaxDistanceMoving;
+
+    public Sprite triggeredSprite;
+
+    public string barrierMsg;
 
     [SerializeField]
-    private Transform _startPoint;
+    private SpriteRenderer _spriteRenderer;
 
-    [SerializeField]
-    private Transform _endPoint;
+    void Start()
+    {
+        iTween.MoveBy(gameObject, iTween.Hash("y", BarrierMaxDistanceMoving, "time", 0.75f, "easeType", "easeInOutExpo", "loopType", "pingPong"));
+    }
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public void OnProjectileCollision() {
+        _spriteRenderer.sprite = triggeredSprite;
+    }
+
+
 }

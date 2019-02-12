@@ -71,6 +71,7 @@ public class RewardsController : MonoBehaviour {
                     if (a.caughtRing1)
                     {
                         score += GameManager.Instance.scoreFromRing1;
+                        break; //Only score once for ring
                     }
                 }
                 break;
@@ -80,6 +81,7 @@ public class RewardsController : MonoBehaviour {
                     if (a.caughtRing2)
                     {
                         score += GameManager.Instance.scoreFromRing2;
+                        break; //Only score once for ring
                     }
                 }
                 break;
@@ -89,6 +91,7 @@ public class RewardsController : MonoBehaviour {
                     if (a.caughtRing3)
                     {
                         score += GameManager.Instance.scoreFromRing3;
+                        break; //Only score once for ring
                     }
                 }
                 break;

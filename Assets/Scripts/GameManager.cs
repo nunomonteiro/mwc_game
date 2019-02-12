@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityUtils;
+using TMPro;
 
 public enum GameState {
     MAIN_MENU,
@@ -18,6 +19,7 @@ public class GameManager : Singleton<GameManager> {
     public int scoreFromRing2;
     public int scoreFromRing3;
     public int scoreFromTime;
+    public int scoreFromLives;
     public GameObject _gamePrefab;
 
     [SerializeField]
@@ -26,6 +28,13 @@ public class GameManager : Singleton<GameManager> {
     private ScoreManager _scoreManager;
     [SerializeField]
     private RewardsController _rewardsController;
+
+    [SerializeField]
+    private GameObject _barrierMsgPrefab;
+
+    [SerializeField]
+    private Canvas _canvas;
+    private RectTransform _canvasRect;
 
     private GameState _state;
     private int _gameStartTime;
@@ -42,13 +51,14 @@ public class GameManager : Singleton<GameManager> {
         base.Awake(); 
         //_uiManager.StartTimer(TotalTime); //FIX THIS BETTER
         _uiManager.GoToMainMenu();
+        _canvasRect = _canvas.GetComponent<RectTransform>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
         if (_uiManager.TimeHasEnded() && _state != GameState.END_SCREEN)
         {
-            EndTurn();
+            EndGame();
         }
     }
 
@@ -96,8 +106,6 @@ public class GameManager : Singleton<GameManager> {
         else {
             StartTurn();
         }
-
-
     }
 
     void EndGame() {
@@ -109,6 +117,7 @@ public class GameManager : Singleton<GameManager> {
         int advantage1Score = _rewardsController.ScoreForRing(1);
         int advantage2Score = _rewardsController.ScoreForRing(2);
         int advantage3Score = _rewardsController.ScoreForRing(3);
+        int livesScore = _amountAttempts * scoreFromLives;
 
         int totalScore = timeScore + advantage1Score + advantage2Score + advantage3Score;
         _latestScore = totalScore;
@@ -136,8 +145,18 @@ public class GameManager : Singleton<GameManager> {
         return _uiManager;
     }
 
-    public void OnTouchedBarrier() {
+    public void OnTouchedBarrier(GameObject colliderObj) {
         _touchedBarrier = true;
+        Barrier barrier = colliderObj.GetComponentInParent<Barrier>();
+        if (barrier != null) {
+            barrier.OnProjectileCollision();
+
+            //TODO spawn text at ui pos
+            Vector3 posWithOffset = colliderObj.transform.position + new Vector3(-1.5f,1.5f,0);
+            Vector2 pos = WorldToCanvasPosition(_canvas, _canvasRect, Camera.main, posWithOffset);
+            GameObject msg = UIMessageSpawner.SpawnMessageOnPositionUsingPrefab(pos, _barrierMsgPrefab, _canvasRect);
+            msg.GetComponentInChildren<TextMeshProUGUI>().text = barrier.barrierMsg;
+        }
     }
 
     public void WentThroughRing(GameObject ring)
@@ -176,5 +195,18 @@ public class GameManager : Singleton<GameManager> {
         if (_state == GameState.LEADERBOARD) {
             GetUIManager().RefreshLeaderboard();
         }
+    }
+
+    public int GetAttemptsLeft() {
+        return _amountAttempts;
+    }
+
+    Vector2 WorldToCanvasPosition(Canvas canvas, RectTransform canvasRect, Camera camera, Vector3 position)
+    {
+        Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(camera, position);
+        Vector2 result;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPoint, canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : camera, out result);
+
+        return canvas.transform.TransformPoint(result);
     }
 }
