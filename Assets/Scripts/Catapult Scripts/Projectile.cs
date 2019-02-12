@@ -52,8 +52,9 @@ public class Projectile : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.CompareTag("Ring"))
         //Debug.Log("============================================== Fiz trigger ==============================================");
-        GameManager.Instance.WentThroughRing(collision.gameObject);
+            GameManager.Instance.WentThroughRing(collision.gameObject);
     }
 
     void OnCollisionEnter2D(Collision2D coll)

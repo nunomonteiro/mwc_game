@@ -38,7 +38,6 @@ GameObject:
   - component: {fileID: 224756300254467572}
   - component: {fileID: 222191224927741776}
   - component: {fileID: 114854913691689484}
-  - component: {fileID: 95250312947268862}
   m_Layer: 5
   m_Name: txt
   m_TagString: Untagged
@@ -46,24 +45,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!95 &95250312947268862
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1761933083830824}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a6597cade458b4036bc3c25252997854, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!95 &95548363992856118
 Animator:
   serializedVersion: 3

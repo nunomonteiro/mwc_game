@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 224278765491728886}
   - component: {fileID: 222130879390958272}
   - component: {fileID: 114991435794430338}
-  - component: {fileID: 95176112658643676}
   m_Layer: 5
   m_Name: txt
   m_TagString: Untagged
@@ -37,8 +36,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224072535767206866}
-  - component: {fileID: 95456048027061738}
   - component: {fileID: 114191039307130272}
+  - component: {fileID: 95867252263507786}
   m_Layer: 5
   m_Name: RingMsg
   m_TagString: Untagged
@@ -63,25 +62,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!95 &95176112658643676
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1448349261023512}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a6597cade458b4036bc3c25252997854, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!95 &95456048027061738
+--- !u!95 &95867252263507786
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
@@ -90,7 +71,7 @@ Animator:
   m_GameObject: {fileID: 1665596241832958}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a6597cade458b4036bc3c25252997854, type: 2}
+  m_Controller: {fileID: 9100000, guid: 024635d515184486f8f46c944439ebd7, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -316,8 +297,8 @@ RectTransform:
   m_Father: {fileID: 224072535767206866}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -0.000015258789, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -139.00002, y: 0}
   m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0.5}

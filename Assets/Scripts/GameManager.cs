@@ -33,6 +33,9 @@ public class GameManager : Singleton<GameManager> {
     private GameObject _barrierMsgPrefab;
 
     [SerializeField]
+    private GameObject _ringMsgPrefab;
+
+    [SerializeField]
     private Canvas _canvas;
     private RectTransform _canvasRect;
 
@@ -151,7 +154,6 @@ public class GameManager : Singleton<GameManager> {
         if (barrier != null) {
             barrier.OnProjectileCollision();
 
-            //TODO spawn text at ui pos
             Vector3 posWithOffset = colliderObj.transform.position + new Vector3(-1.5f,1.5f,0);
             Vector2 pos = WorldToCanvasPosition(_canvas, _canvasRect, Camera.main, posWithOffset);
             GameObject msg = UIMessageSpawner.SpawnMessageOnPositionUsingPrefab(pos, _barrierMsgPrefab, _canvasRect);
@@ -165,15 +167,26 @@ public class GameManager : Singleton<GameManager> {
         if (_touchedBarrier)
             return;
 
+        int pointsAwarded = 0;
+
         if (ring.name.Contains("ring1")) {
-            _currentAttempt.caughtRing1 = true;   
+            _currentAttempt.caughtRing1 = true;
+            pointsAwarded = scoreFromRing1;
         } else if (ring.name.Contains("ring2"))
         {
             _currentAttempt.caughtRing2 = true;
+            pointsAwarded = scoreFromRing2;
         } else if (ring.name.Contains("ring3"))
         {
             _currentAttempt.caughtRing3 = true;
+            pointsAwarded = scoreFromRing3;
         }
+
+        //FIX ME The offset is not working! 
+        Vector3 posWithOffset = ring.transform.position + new Vector3(0, 150f, 0);
+        Vector2 pos = WorldToCanvasPosition(_canvas, _canvasRect, Camera.main, posWithOffset);
+        GameObject msg = UIMessageSpawner.SpawnMessageOnPositionUsingPrefab(pos, _ringMsgPrefab, _canvasRect);
+        msg.GetComponentInChildren<TextMeshProUGUI>().text = "x" + pointsAwarded.ToString();
     }
 
     public RewardsController GetRewardsController() {

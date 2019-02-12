@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Arm
   - Obstacle
+  - Ring
   layers:
   - Default
   - TransparentFX
