@@ -83,11 +83,12 @@ public class GameManager : Singleton<GameManager> {
         _touchedBarrier = false;
     }
 
-    public void EndTurn() {
+    public void LostAttempt() {
         _uiManager.LostAttempt();
-
         _amountAttempts--;
-        //TODO update UI with attempt number
+    }
+
+    public void EndTurn() {
         _rewardsController.AddNewAttempt(_currentAttempt);
 
         if (_amountAttempts <= 0)

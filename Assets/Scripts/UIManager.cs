@@ -128,7 +128,7 @@ public class UIManager : MonoBehaviour {
 
     public void LostAttempt() {
         //Hide another life
-        _attemptsUI[_totalAttempts - _remainingAttempts].SetActive(false);
+        _attemptsUI[_totalAttempts - _remainingAttempts].GetComponent<AttemptUI>().OnLost();
         _remainingAttempts--;
     }
 

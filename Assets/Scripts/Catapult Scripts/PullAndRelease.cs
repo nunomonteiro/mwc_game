@@ -66,11 +66,12 @@ public class PullAndRelease : MonoBehaviour {
 
         _isColliding = true;
 
-        if (!IsInvoking("NotifyEndTurn"))
-            Invoke("NotifyEndTurn",1.5f);
+        if (!IsInvoking("NotifyEndTurn")) {
+            GameManager.Instance.LostAttempt();
+            Invoke("NotifyEndTurn", 1.5f);
+        }
     }
 
-    //TODO
     void NotifyEndTurn()
     {
         Destroy(this.gameObject);
