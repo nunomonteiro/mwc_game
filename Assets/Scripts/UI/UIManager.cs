@@ -179,7 +179,9 @@ public class UIManager : MonoBehaviour {
     }
 
     public void UpdateScore(int totalScore) {
-        _scoreText.text = totalScore.ToString();   
+        _scoreText.text = totalScore.ToString();
+        Debug.Log("Current Score: " + totalScore);
+       
     }
 
     public void OnScoreSuccessfullySubmitted()
