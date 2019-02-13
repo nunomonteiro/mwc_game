@@ -49,6 +49,10 @@ public class GameManager : Singleton<GameManager> {
     private int _amountAttempts;
     private Attempt _currentAttempt;
 
+    private bool _wentThroughRing1 = false;
+    private bool _wentThroughRing2 = false;
+    private bool _wentThroughRing3 = false;
+
 	// Use this for initialization
     protected override void Awake() {
         base.Awake(); 
@@ -94,7 +98,10 @@ public class GameManager : Singleton<GameManager> {
         _currentAttempt = new Attempt();
 
         _touchedBarrier = false;
-    }
+        _wentThroughRing1 = false;
+        _wentThroughRing2 = false;
+        _wentThroughRing3 = false;
+    }   
 
     public void LostAttempt() {
         _uiManager.LostAttempt();
@@ -104,7 +111,8 @@ public class GameManager : Singleton<GameManager> {
     public void EndTurn() {
         _rewardsController.AddNewAttempt(_currentAttempt);
 
-        if (_amountAttempts <= 0)
+        bool allRingsHit = (_rewardsController.TimesCaughtRing1() > 0) && (_rewardsController.TimesCaughtRing2() > 0) && (_rewardsController.TimesCaughtRing3() > 0);
+        if (_amountAttempts <= 0 || allRingsHit)
             EndGame();
         else {
             StartTurn();
@@ -173,21 +181,33 @@ public class GameManager : Singleton<GameManager> {
 
         if (ring.name.Contains("ring1")) 
         {
+            //Avoid double triggers
+            if (_wentThroughRing1)
+                return;
             _currentAttempt.caughtRing1 = true;
             pointsAwarded = scoreFromRing1;
             powerUpMessage = "81% Power-Up";
-        } 
+            _wentThroughRing1 = true;
+        }
         else if (ring.name.Contains("ring2"))
         {
+            //Avoid double triggers
+            if (_wentThroughRing2)
+                return;
             _currentAttempt.caughtRing2 = true;
             pointsAwarded = scoreFromRing2;
             powerUpMessage = "POA Power-Up";
+            _wentThroughRing2 = true;
         }
         else if (ring.name.Contains("ring3"))
         {
+            //Avoid double triggers
+            if (_wentThroughRing3)
+                return;
             _currentAttempt.caughtRing3 = true;
             pointsAwarded = scoreFromRing3;
             powerUpMessage = "Unity Power-Up";
+            _wentThroughRing3 = true;
         }
 
         //FIX ME The offset is not working! 

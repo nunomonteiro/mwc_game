@@ -61,9 +61,9 @@ public class EndScreen : MonoBehaviour {
         RewardsController rewardsController = GameManager.Instance.GetRewardsController();
 
         int timeScore = ((int)rewardsController.timeLeft) * GameManager.Instance.scoreFromTime;
-        int advantage1Score = rewardsController.TimesCaughtRing1() * GameManager.Instance.scoreFromRing1;
-        int advantage2Score = rewardsController.TimesCaughtRing2() * GameManager.Instance.scoreFromRing2;
-        int advantage3Score = rewardsController.TimesCaughtRing3() * GameManager.Instance.scoreFromRing3;
+        int advantage1Score = rewardsController.ScoreForRing(1);
+        int advantage2Score = rewardsController.ScoreForRing(2);
+        int advantage3Score = rewardsController.ScoreForRing(3);
         int livesScore = GameManager.Instance.GetAttemptsLeft() * GameManager.Instance.scoreFromLives;
 
         _txtTimeScore.text = timeScore.ToString();
