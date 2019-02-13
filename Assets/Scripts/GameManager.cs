@@ -23,6 +23,9 @@ public class GameManager : Singleton<GameManager> {
     public GameObject _gamePrefab;
 
     [SerializeField]
+    private int[] _appcoinRewards;
+
+    [SerializeField]
     private UIManager _uiManager;
     [SerializeField]
     private ScoreManager _scoreManager;
@@ -217,6 +220,8 @@ public class GameManager : Singleton<GameManager> {
 
         RingUIMessage ringMsg = msg.GetComponent<RingUIMessage>();
         ringMsg.SetupWithMessageAndAdvantage("x " + pointsAwarded.ToString(), powerUpMessage);
+
+        //TODO update score label
     }
 
     public RewardsController GetRewardsController() {
@@ -251,5 +256,11 @@ public class GameManager : Singleton<GameManager> {
         RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPoint, canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : camera, out result);
 
         return canvas.transform.TransformPoint(result);
+    }
+
+    public int GetAppcoinsRewardForPlace(int place) {
+        if (place > 5)
+            return 0;
+        return _appcoinRewards[place - 1];
     }
 }

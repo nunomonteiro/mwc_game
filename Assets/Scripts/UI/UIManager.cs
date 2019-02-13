@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public enum ScreenState{
     MAIN_MENU,
@@ -38,6 +39,9 @@ public class UIManager : MonoBehaviour {
 
     [SerializeField]
     private Transform _attemptsParent;
+
+    [SerializeField]
+    private TextMeshProUGUI _scoreText;
 
     private List<GameObject> _attemptsUI;
 
@@ -172,6 +176,10 @@ public class UIManager : MonoBehaviour {
 
     public float GetTimeLeft() {
         return _slider.value;
+    }
+
+    public void UpdateScore(int totalScore) {
+        _scoreText.text = totalScore.ToString();   
     }
 
     public void OnScoreSuccessfullySubmitted()

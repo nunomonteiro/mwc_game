@@ -60,7 +60,6 @@ public class LeaderboardScreen : MonoBehaviour {
 
     public void OnScoreSuccessfullySubmitted() {
         ListScores();
-        //TODO update scores with new score
     }
 
     void CreateScoreEntry(int place, CSVScoreEntry entry) {
