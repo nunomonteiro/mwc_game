@@ -19,7 +19,9 @@ public class PreGameScreen : MonoBehaviour {
     private Image _numberImg;
 
     [SerializeField]
-    private TextMeshProUGUI _text;
+    private TextMeshProUGUI _textUnleash;
+    [SerializeField]
+    private TextMeshProUGUI _textYourApps;
 
 
     // Use this for initialization
@@ -32,7 +34,8 @@ public class PreGameScreen : MonoBehaviour {
         _numberImg.gameObject.SetActive(true);
         _gradientBg.gameObject.SetActive(true);
         _cleanBg.gameObject.SetActive(false);
-        _text.gameObject.SetActive(false);
+        _textUnleash.gameObject.SetActive(false);
+        _textYourApps.gameObject.SetActive(false);
 
         _numberImg.sprite = _numbers[0];
         yield return new WaitForSeconds(1);
@@ -45,7 +48,9 @@ public class PreGameScreen : MonoBehaviour {
         _numberImg.gameObject.SetActive(false);
         _gradientBg.gameObject.SetActive(false);
         _cleanBg.gameObject.SetActive(true);
-        _text.gameObject.SetActive(true);
+        _textUnleash.gameObject.SetActive(true);
+        _textYourApps.gameObject.SetActive(true);
+
         yield return new WaitForSeconds(2);
 
         GameManager.Instance.StartGame();

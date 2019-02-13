@@ -154,10 +154,11 @@ public class GameManager : Singleton<GameManager> {
         if (barrier != null) {
             barrier.OnProjectileCollision();
 
-            Vector3 posWithOffset = colliderObj.transform.position + new Vector3(-1.5f,1.5f,0);
+            Vector3 posWithOffset = colliderObj.transform.position + new Vector3(-1.5f,-2f,0);
             Vector2 pos = WorldToCanvasPosition(_canvas, _canvasRect, Camera.main, posWithOffset);
             GameObject msg = UIMessageSpawner.SpawnMessageOnPositionUsingPrefab(pos, _barrierMsgPrefab, _canvasRect);
-            msg.GetComponentInChildren<TextMeshProUGUI>().text = barrier.barrierMsg;
+            UIMessage uiMsg = msg.GetComponent<UIMessage>();
+            uiMsg.SetupWithMessage(barrier.barrierMsg);
         }
     }
 
@@ -168,25 +169,34 @@ public class GameManager : Singleton<GameManager> {
             return;
 
         int pointsAwarded = 0;
+        string powerUpMessage = "";
 
-        if (ring.name.Contains("ring1")) {
+        if (ring.name.Contains("ring1")) 
+        {
             _currentAttempt.caughtRing1 = true;
             pointsAwarded = scoreFromRing1;
-        } else if (ring.name.Contains("ring2"))
+            powerUpMessage = "81% Power-Up";
+        } 
+        else if (ring.name.Contains("ring2"))
         {
             _currentAttempt.caughtRing2 = true;
             pointsAwarded = scoreFromRing2;
-        } else if (ring.name.Contains("ring3"))
+            powerUpMessage = "POA Power-Up";
+        }
+        else if (ring.name.Contains("ring3"))
         {
             _currentAttempt.caughtRing3 = true;
             pointsAwarded = scoreFromRing3;
+            powerUpMessage = "Unity Power-Up";
         }
 
         //FIX ME The offset is not working! 
-        Vector3 posWithOffset = ring.transform.position + new Vector3(0, 150f, 0);
+        Vector3 posWithOffset = ring.transform.position + new Vector3(0, 2f, 0);
         Vector2 pos = WorldToCanvasPosition(_canvas, _canvasRect, Camera.main, posWithOffset);
         GameObject msg = UIMessageSpawner.SpawnMessageOnPositionUsingPrefab(pos, _ringMsgPrefab, _canvasRect);
-        msg.GetComponentInChildren<TextMeshProUGUI>().text = "x" + pointsAwarded.ToString();
+
+        RingUIMessage ringMsg = msg.GetComponent<RingUIMessage>();
+        ringMsg.SetupWithMessageAndAdvantage("x " + pointsAwarded.ToString(), powerUpMessage);
     }
 
     public RewardsController GetRewardsController() {
