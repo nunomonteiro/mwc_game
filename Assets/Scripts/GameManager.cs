@@ -267,4 +267,8 @@ public class GameManager : Singleton<GameManager> {
     public void GoToMainMenu() {
         _uiManager.GoToMainMenu();
     }
+
+    public void UpdateLatestScore(int score) {
+        _latestScore = score;
+    }
 }

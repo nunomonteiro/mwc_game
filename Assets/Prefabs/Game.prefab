@@ -347,7 +347,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4120585692312260}
   - component: {fileID: 212153068425949828}
-  - component: {fileID: 58711172654871314}
   - component: {fileID: 114888143547969528}
   m_Layer: 0
   m_Name: catapult
@@ -1080,21 +1079,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &58711172654871314
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1581530974252852}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.03, y: 0.25}
-  serializedVersion: 2
-  m_Radius: 0.96
 --- !u!61 &61003451315527882
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -1374,6 +1358,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 1785646390702680, guid: 45579c9366f76bb40a27b5fedb8e2187,
     type: 2}
+  spawnPosition: {fileID: 4843348894276614}
 --- !u!212 &212016071785970266
 SpriteRenderer:
   m_ObjectHideFlags: 1
