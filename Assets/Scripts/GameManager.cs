@@ -58,18 +58,16 @@ public class GameManager : Singleton<GameManager>
     private bool _wentThroughRing2 = false;
     private bool _wentThroughRing3 = false;
 
-    // Use this for initialization
-    protected override void Awake()
-    {
+	// Use this for initialization
+    protected override void Awake() {
         base.Awake();
         //_uiManager.StartTimer(TotalTime); //FIX THIS BETTER
-        _uiManager.GoToMainMenu();
+        GoToMainMenu();
         _canvasRect = _canvas.GetComponent<RectTransform>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+	}
+	
+	// Update is called once per frame
+	void Update () {
         if (_uiManager.TimeHasEnded() && _state != GameState.END_SCREEN)
         {
             EndGame();
@@ -304,5 +302,10 @@ public class GameManager : Singleton<GameManager>
         _currentScore = 0;
         GetUIManager().UpdateScore(_currentScore);
     }
+
+    public void GoToMainMenu() {
+        _uiManager.GoToMainMenu();
+    }
+
 }
 

@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class EndScreen : MonoBehaviour {
+    [SerializeField]
+    private GameObject[] _liveImages;
     [SerializeField]
     private Sprite activeAdvantageSprite;
     [SerializeField]
@@ -15,17 +18,17 @@ public class EndScreen : MonoBehaviour {
     private GameObject _btnScoreSubmitted;
 
     [SerializeField]
-    private Text _txtFinalScore;
+    private TextMeshProUGUI _txtFinalScore;
     [SerializeField]
-    private Text _txtAdvantage1Score;
+    private TextMeshProUGUI _txtAdvantage1Score;
     [SerializeField]
-    private Text _txtAdvantage2Score;
+    private TextMeshProUGUI _txtAdvantage2Score;
     [SerializeField]
-    private Text _txtAdvantage3Score;
+    private TextMeshProUGUI _txtAdvantage3Score;
     [SerializeField]
-    private Text _txtTimeScore;
+    private TextMeshProUGUI _txtTimeScore;
     [SerializeField]
-    private Text _txtLivesScore;
+    private TextMeshProUGUI _txtLivesScore;
     [SerializeField]
     private Image _imgAdvantage1;
     [SerializeField]
@@ -43,20 +46,20 @@ public class EndScreen : MonoBehaviour {
 		
 	}
 
-    void SolveScoreForAdvantage(int advantageScore, Image advantageImage, Text advantageText) {
+    void SolveScoreForAdvantage(int advantageScore, Image advantageImage, TextMeshProUGUI advantageText) {
         if (advantageScore > 0)
             advantageImage.sprite = activeAdvantageSprite;
         else
             advantageImage.sprite = inactiveAdvantageSprite;
         
-        advantageText.text = advantageScore.ToString();
+        advantageText.text = "x " + advantageScore.ToString();
 
     }
 
     public void Setup()
     {
         _btnSubmitScore.SetActive(true);
-        _btnScoreSubmitted.SetActive(false);
+        //_btnScoreSubmitted.SetActive(false);
 
         RewardsController rewardsController = GameManager.Instance.GetRewardsController();
 
@@ -64,20 +67,47 @@ public class EndScreen : MonoBehaviour {
         int advantage1Score = rewardsController.ScoreForRing(1);
         int advantage2Score = rewardsController.ScoreForRing(2);
         int advantage3Score = rewardsController.ScoreForRing(3);
-        int livesScore = GameManager.Instance.GetAttemptsLeft() * GameManager.Instance.scoreFromLives;
 
-        _txtTimeScore.text = timeScore.ToString();
-        _txtLivesScore.text = livesScore.ToString();
+        int livesLeft = GameManager.Instance.GetAttemptsLeft();
+        int livesScore = livesLeft * GameManager.Instance.scoreFromLives;
+
+        _txtTimeScore.text = "x " + timeScore.ToString();
+        _txtLivesScore.text = "x " + livesScore.ToString();
+
+        //Disable the images according to amount of lives left
+        switch(livesLeft) {
+            case 0:
+                _liveImages[0].SetActive(false);
+                _liveImages[1].SetActive(false);
+                _liveImages[2].SetActive(true); //This one is greyd out
+                break;
+            case 1:
+                _liveImages[0].SetActive(true);
+                _liveImages[1].SetActive(false);
+                _liveImages[2].SetActive(false);
+                break;
+            case 2:
+                _liveImages[0].SetActive(true);
+                _liveImages[1].SetActive(true);
+                _liveImages[2].SetActive(false);
+                break;
+        }
+
 
         SolveScoreForAdvantage(advantage1Score, _imgAdvantage1, _txtAdvantage1Score);
         SolveScoreForAdvantage(advantage2Score, _imgAdvantage2, _txtAdvantage2Score);
         SolveScoreForAdvantage(advantage3Score, _imgAdvantage3, _txtAdvantage3Score);
 
-        _txtFinalScore.text = (timeScore + advantage1Score + advantage2Score + advantage3Score + livesScore).ToString();
+        _txtFinalScore.text = "x " + (timeScore + advantage1Score + advantage2Score + advantage3Score + livesScore).ToString();
     }
 
     public void OnRetryButtonPressed() {
         GameManager.Instance.StartGame();
+    }
+
+    public void OnNewGameButtonPressed()
+    {
+        GameManager.Instance.GoToMainMenu();
     }
 
     public void OnSubmitButtonPressed() {
@@ -86,6 +116,6 @@ public class EndScreen : MonoBehaviour {
 
     public void OnScoreSuccessfullySubmitted() {
         _btnSubmitScore.SetActive(false);
-        _btnScoreSubmitted.SetActive(true);
+        //_btnScoreSubmitted.SetActive(true);
     }   
 }
