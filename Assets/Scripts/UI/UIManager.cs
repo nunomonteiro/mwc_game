@@ -53,6 +53,8 @@ public class UIManager : MonoBehaviour {
     private float _timestampTimeStart;
     private int _remainingAttempts;
     private int _totalAttempts;
+    private int score = 0;
+    public float duration = 0.5f;
 
     private void Awake()
     {
@@ -95,7 +97,7 @@ public class UIManager : MonoBehaviour {
     }
 
     private void Update()
-    {
+    { 
         if (_startedTimer)
         {
             _slider.value -= Time.deltaTime;
@@ -179,9 +181,8 @@ public class UIManager : MonoBehaviour {
     }
 
     public void UpdateScore(int totalScore) {
-        _scoreText.text = totalScore.ToString();
-        Debug.Log("Current Score: " + totalScore);
-       
+        CountTo(totalScore);
+        StartCount(totalScore);
     }
 
     public void OnScoreSuccessfullySubmitted()
@@ -191,4 +192,23 @@ public class UIManager : MonoBehaviour {
 
     }
 
+    public void StartCount(int target)
+    {
+        StopCoroutine("CountTo");
+        StartCoroutine("CountTo", target);
+    }
+
+    public IEnumerator CountTo(int target)
+    {
+        int start = score;
+        for (float timer = 0; timer < duration; timer += Time.deltaTime)
+        {
+            float progress = timer / duration;
+            score = (int)Mathf.Lerp(start, target, progress);
+            yield return null;
+            _scoreText.text = score.ToString();
+        }
+        score = target;
+        _scoreText.text = score.ToString();
+    }
 }
