@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using TMPro;
 
 public class ScoreSubmissionPopup : MonoBehaviour {
 
     public UnityEvent onScoreSuccessfullySubmited;
 
     [SerializeField]
-    private Text _txtScore;
+    private TextMeshProUGUI _txtScore;
 
     [SerializeField]
-    private InputField _inputName;
+    private TMP_InputField _inputName;
 
     [SerializeField]
-    private InputField _inputMail;
+    private TMP_InputField _inputMail;
 
     [SerializeField]
     private Toggle _wantsToKnowMore;

@@ -58,9 +58,9 @@ public class GameManager : Singleton<GameManager> {
 
 	// Use this for initialization
     protected override void Awake() {
-        base.Awake(); 
+        base.Awake();
         //_uiManager.StartTimer(TotalTime); //FIX THIS BETTER
-        _uiManager.GoToMainMenu();
+        GoToMainMenu();
         _canvasRect = _canvas.GetComponent<RectTransform>();
 	}
 	
@@ -262,5 +262,9 @@ public class GameManager : Singleton<GameManager> {
         if (place > 5)
             return 0;
         return _appcoinRewards[place - 1];
+    }
+
+    public void GoToMainMenu() {
+        _uiManager.GoToMainMenu();
     }
 }
