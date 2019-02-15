@@ -22,6 +22,8 @@ public class GameManager : Singleton<GameManager>
     public int scoreFromTime;
     public int scoreFromLives;
     public GameObject _gamePrefab;
+    public int MaxDistance;
+    public int MaxForce;
 
     [SerializeField]
     private int[] _appcoinRewards;

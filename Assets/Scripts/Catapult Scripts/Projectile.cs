@@ -15,13 +15,16 @@ public class Projectile : MonoBehaviour
 
     Vector2 difference = Vector2.zero;
     float distance;
-    bool pressed, shoot, firstpoint;
+    bool pressed, shoot, firstpoint,flying;
     public Vector2 inputPoint;
     public Vector2 lastPoint = Vector2.zero;
-
+    int maxDistance;
+    int maxForce;
     // Use this for initialization
     void Start()
     {
+        maxDistance = GameManager.Instance.MaxDistance;
+        maxForce = GameManager.Instance.MaxForce;
         Arrow.SetActive(false);
         _isColliding = false;
         startPos = transform.position;
@@ -30,25 +33,29 @@ public class Projectile : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (!flying)
         {
-            pressed = true;
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            pressed = false;
-            shoot = true;
+            if (Input.GetMouseButtonDown(0))
+            {
+                pressed = true;
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+                pressed = false;
+                shoot = true;
+            }
+
+            if (pressed && !flying)
+            {
+                _pointToTrajectory();
+            }
+
+            if (shoot)
+            {
+                _shootApp();
+            }
         }
 
-        if (pressed)
-        {
-            _pointToTrajectory();
-        }
-
-        if (shoot)
-        {
-            _shootApp();
-        }
     }
 
     private void _pointToTrajectory()
@@ -74,9 +81,7 @@ public class Projectile : MonoBehaviour
 
         // Calculate the angle of the input
         float angleRotation = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
-
-        Debug.Log("difference " + difference + " angle " + angleRotation);
-
+        
         if (difference.x > 0 && difference.y > 0)
         {
             //Quadrant 1    
@@ -92,8 +97,6 @@ public class Projectile : MonoBehaviour
             {
                 angleRotation = 360 - angleRotation;
             }
-
-            Debug.Log(" Fixed angle " + angleRotation);
 
             //Guard to check to not allow the user for strange angles.
             if (angleRotation > MiminimumAngle && angleRotation < MaxAngle)
@@ -140,25 +143,29 @@ public class Projectile : MonoBehaviour
 
     private void _shootApp()
     {
-        _anim.SetTrigger("shoot");
+        if(!flying)
+            _anim.SetTrigger("shoot");
+
         GetComponent<Rigidbody2D>().isKinematic = false;
         GetComponent<Rigidbody2D>().AddForce(difference * _forceCalculator(difference));
         Arrow.SetActive(false);
-        shoot = false;
         firstpoint = false;
         inputPoint = Vector2.zero;
+        shoot = false;
+        flying = true;
+
     }
 
 
     float _forceCalculator(Vector2 dir)
     {
-        if (distance > 10)
+        if (distance > maxForce)
         {
-            return 1400;
+            return maxForce;
         }
         else
         {
-            return (1400 * distance) / 10;
+            return (maxForce * distance) / maxDistance;
         }
     }
 
@@ -167,60 +174,86 @@ public class Projectile : MonoBehaviour
         distance = Vector2.Distance(inputPoint, lastPoint);
 
 
-        if (distance >= 9)
+
+        if (distance > maxDistance)
+            distance = maxDistance;
+             
+        int value = ((int)distance * 6) / maxDistance;
+
+        print("Value " + value);
+
+
+        for (int i = 0 ; i < Arrow.transform.childCount; i++)
         {
-            Arrow.transform.GetChild(0).gameObject.SetActive(true);
-            Arrow.transform.GetChild(1).gameObject.SetActive(true);
-            Arrow.transform.GetChild(2).gameObject.SetActive(true);
-            Arrow.transform.GetChild(3).gameObject.SetActive(true);
-            Arrow.transform.GetChild(4).gameObject.SetActive(true);
-            Arrow.transform.GetChild(5).gameObject.SetActive(true);
+            Arrow.transform.GetChild(i).gameObject.SetActive(false);
+
         }
-        else if (distance < 9 && distance >= 7)
+
+        for (int i = 0; i< value ; i++)
         {
-            Arrow.transform.GetChild(0).gameObject.SetActive(true);
-            Arrow.transform.GetChild(1).gameObject.SetActive(true);
-            Arrow.transform.GetChild(2).gameObject.SetActive(true);
-            Arrow.transform.GetChild(3).gameObject.SetActive(true);
-            Arrow.transform.GetChild(4).gameObject.SetActive(true);
-            Arrow.transform.GetChild(5).gameObject.SetActive(false);
+            Arrow.transform.GetChild(i).gameObject.SetActive(true);
         }
-        else if (distance < 7 && distance >= 5)
-        {
-            Arrow.transform.GetChild(0).gameObject.SetActive(true);
-            Arrow.transform.GetChild(1).gameObject.SetActive(true);
-            Arrow.transform.GetChild(2).gameObject.SetActive(true);
-            Arrow.transform.GetChild(3).gameObject.SetActive(true);
-            Arrow.transform.GetChild(4).gameObject.SetActive(false);
-            Arrow.transform.GetChild(5).gameObject.SetActive(false);
-        }
-        else if (distance < 4 && distance >= 3)
-        {
-            Arrow.transform.GetChild(0).gameObject.SetActive(true);
-            Arrow.transform.GetChild(1).gameObject.SetActive(true);
-            Arrow.transform.GetChild(2).gameObject.SetActive(true);
-            Arrow.transform.GetChild(3).gameObject.SetActive(false);
-            Arrow.transform.GetChild(4).gameObject.SetActive(false);
-            Arrow.transform.GetChild(5).gameObject.SetActive(false);
-        }
-        else if (distance < 3 && distance >= 2)
-        {
-            Arrow.transform.GetChild(0).gameObject.SetActive(true);
-            Arrow.transform.GetChild(1).gameObject.SetActive(true);
-            Arrow.transform.GetChild(2).gameObject.SetActive(false);
-            Arrow.transform.GetChild(3).gameObject.SetActive(false);
-            Arrow.transform.GetChild(4).gameObject.SetActive(false);
-            Arrow.transform.GetChild(5).gameObject.SetActive(false);
-        }
-        else if (distance < 2 && distance >= 1)
-        {
-            Arrow.transform.GetChild(0).gameObject.SetActive(true);
-            Arrow.transform.GetChild(1).gameObject.SetActive(false);
-            Arrow.transform.GetChild(2).gameObject.SetActive(false);
-            Arrow.transform.GetChild(3).gameObject.SetActive(false);
-            Arrow.transform.GetChild(4).gameObject.SetActive(false);
-            Arrow.transform.GetChild(5).gameObject.SetActive(false);
-        }
+
+       
+
+        //if (maxDistance >= distance)
+        //{
+        //    Arrow.transform.GetChild(0).gameObject.SetActive(true);
+        //    Arrow.transform.GetChild(1).gameObject.SetActive(true);
+        //    Arrow.transform.GetChild(2).gameObject.SetActive(true);
+        //    Arrow.transform.GetChild(3).gameObject.SetActive(true);
+        //    Arrow.transform.GetChild(4).gameObject.SetActive(true);
+        //    Arrow.transform.GetChild(5).gameObject.SetActive(true);
+        //}
+        //else if (maxDistance < distance && 
+        // distanceValue -alpha >= distance )
+        //{
+        //    Arrow.transform.GetChild(0).gameObject.SetActive(true);
+        //    Arrow.transform.GetChild(1).gameObject.SetActive(true);
+        //    Arrow.transform.GetChild(2).gameObject.SetActive(true);
+        //    Arrow.transform.GetChild(3).gameObject.SetActive(true);
+        //    Arrow.transform.GetChild(4).gameObject.SetActive(true);
+        //    Arrow.transform.GetChild(5).gameObject.SetActive(false);
+        //}
+        //else if (distanceValue - alpha < distance && distanceValue - (alpha+alpha) >= distance)
+        //{
+        //    Arrow.transform.GetChild(0).gameObject.SetActive(true);
+        //    Arrow.transform.GetChild(1).gameObject.SetActive(true);
+        //    Arrow.transform.GetChild(2).gameObject.SetActive(true);
+        //    Arrow.transform.GetChild(3).gameObject.SetActive(true);
+        //    Arrow.transform.GetChild(4).gameObject.SetActive(false);
+        //    Arrow.transform.GetChild(5).gameObject.SetActive(false);
+        //}
+        //else if (distanceValue - (alpha + alpha) < distance 
+        //&& distanceValue - (alpha + alpha+alpha) >= distance)
+        //{
+        //    Arrow.transform.GetChild(0).gameObject.SetActive(true);
+        //    Arrow.transform.GetChild(1).gameObject.SetActive(true);
+        //    Arrow.transform.GetChild(2).gameObject.SetActive(true);
+        //    Arrow.transform.GetChild(3).gameObject.SetActive(false);
+        //    Arrow.transform.GetChild(4).gameObject.SetActive(false);
+        //    Arrow.transform.GetChild(5).gameObject.SetActive(false);
+        //}
+        //else if (distanceValue - (alpha + alpha + alpha) < distance 
+        //&& distanceValue - (alpha + alpha + alpha + alpha) >= distance)
+        //{
+        //    Arrow.transform.GetChild(0).gameObject.SetActive(true);
+        //    Arrow.transform.GetChild(1).gameObject.SetActive(true);
+        //    Arrow.transform.GetChild(2).gameObject.SetActive(false);
+        //    Arrow.transform.GetChild(3).gameObject.SetActive(false);
+        //    Arrow.transform.GetChild(4).gameObject.SetActive(false);
+        //    Arrow.transform.GetChild(5).gameObject.SetActive(false);
+        //}
+        //else if (distanceValue - (alpha + alpha + alpha + alpha) < distance
+        //&& distanceValue - (alpha + alpha + alpha + alpha + alpha) >= distance)
+        //{
+        //    Arrow.transform.GetChild(0).gameObject.SetActive(true);
+        //    Arrow.transform.GetChild(1).gameObject.SetActive(false);
+        //    Arrow.transform.GetChild(2).gameObject.SetActive(false);
+        //    Arrow.transform.GetChild(3).gameObject.SetActive(false);
+        //    Arrow.transform.GetChild(4).gameObject.SetActive(false);
+        //    Arrow.transform.GetChild(5).gameObject.SetActive(false);
+        //}
 
     }
 
@@ -248,8 +281,10 @@ public class Projectile : MonoBehaviour
         }
     }
 
+
     void NotifyEndTurn()
     {
+        flying = false;
         Destroy(this.gameObject);
         GameManager.Instance.EndTurn();
     }
