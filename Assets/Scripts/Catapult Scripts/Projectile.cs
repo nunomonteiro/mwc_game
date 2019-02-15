@@ -178,7 +178,7 @@ public class Projectile : MonoBehaviour
         if (distance > maxDistance)
             distance = maxDistance;
 
-        int value = ((int)distance * 6) / maxDistance;
+        int value = (int)((distance * 6) / (float)maxDistance + 0.5f);
 
         print("Value " + value);
 
