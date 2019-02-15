@@ -303,7 +303,12 @@ public class GameManager : Singleton<GameManager>
         GetUIManager().UpdateScore(_currentScore);
     }
 
-    public void GoToMainMenu() {
+    public void UpdateLatestScore(int score)
+    {
+        _latestScore = score;
+    }
+
+public void GoToMainMenu() {
         _uiManager.GoToMainMenu();
     }
 
