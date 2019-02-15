@@ -87,6 +87,8 @@ public class ScoreManager : MonoBehaviour {
     }
 
     void ProcessScoreLine(string line) {
+        Debug.Log("Got score line of " + line);
+
         string[] parts = line.Split(',');
 
         //index 1 is name and index 3 is score

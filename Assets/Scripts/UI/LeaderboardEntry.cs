@@ -35,7 +35,10 @@ public class LeaderboardEntry : MonoBehaviour {
 
     public void SetupWithScoreEntry(int place, CSVScoreEntry entry) {
         _txtPlace.text = place.ToString();
-        _txtName.text = entry.name.Substring(0, MAX_LENGHT);
+        string name = entry.name;
+        if (name.Length >= MAX_LENGHT)
+            name = entry.name.Substring(0, MAX_LENGHT);
+        _txtName.text = name;
         _txtScore.text = entry.score.ToString();
 
         if (place > 5)

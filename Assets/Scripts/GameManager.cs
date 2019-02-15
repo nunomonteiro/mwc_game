@@ -63,6 +63,9 @@ public class GameManager : Singleton<GameManager>
 	// Use this for initialization
     protected override void Awake() {
         base.Awake();
+
+        Application.targetFrameRate = 60;
+
         //_uiManager.StartTimer(TotalTime); //FIX THIS BETTER
         GoToMainMenu();
         _canvasRect = _canvas.GetComponent<RectTransform>();
@@ -120,7 +123,6 @@ public class GameManager : Singleton<GameManager>
 
     public void LostAttempt()
     {
-        _uiManager.LostAttempt();
         _amountAttempts--;
     }
 
@@ -133,6 +135,7 @@ public class GameManager : Singleton<GameManager>
             EndGame();
         else
         {
+            _uiManager.LostAttempt();
             StartTurn();
         }
     }
