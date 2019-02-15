@@ -1226,7 +1226,7 @@ MonoBehaviour:
   _attemptPrefab: {fileID: 1861600881661708, guid: 186aeb4b265664ee9bc9f1ea48e8025f,
     type: 2}
   _attemptsParent: {fileID: 344761180}
-  _scoreText: {fileID: 1645486670}
+  _scoreText: {fileID: 0}
 --- !u!1 &194640267
 GameObject:
   m_ObjectHideFlags: 0
@@ -4834,6 +4834,46 @@ Prefab:
     - target: {fileID: 1130067095177156, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773353084356664, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4321830085838842, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4932734123534982, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4018013317303688, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120585692312260, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4888943629592506, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4731791019783316, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4679808388519232, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4784668672710712, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4419821169947124, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
