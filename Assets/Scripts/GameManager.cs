@@ -319,4 +319,11 @@ public void GoToMainMenu() {
         _uiManager.GoToMainMenu();
     }
 
+    public void DebugNoBarriers() {
+
+        foreach (GameObject fooObj in GameObject.FindGameObjectsWithTag("Obstacle"))
+        {
+            fooObj.SetActive(false);
+        }
+    }
 }

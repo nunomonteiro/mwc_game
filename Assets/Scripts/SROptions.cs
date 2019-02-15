@@ -17,4 +17,8 @@ public partial class SROptions
     public void Quit() {
         Application.Quit();
     }
+
+    public void NoWalls() {
+        GameManager.Instance.DebugNoBarriers();
+    }
 }

@@ -75,7 +75,7 @@ public class Projectile : MonoBehaviour
         // Calculate the angle of the input
         float angleRotation = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
 
-        Debug.Log("difference " + difference + " angle " + angleRotation);
+        //Debug.Log("difference " + difference + " angle " + angleRotation);
 
         if (difference.x > 0 && difference.y > 0)
         {
@@ -93,7 +93,7 @@ public class Projectile : MonoBehaviour
                 angleRotation = 360 - angleRotation;
             }
 
-            Debug.Log(" Fixed angle " + angleRotation);
+            //Debug.Log(" Fixed angle " + angleRotation);
 
             //Guard to check to not allow the user for strange angles.
             if (angleRotation > MiminimumAngle && angleRotation < MaxAngle)
@@ -125,7 +125,7 @@ public class Projectile : MonoBehaviour
                 angleRotation -= 90;
             }
 
-            Debug.Log(" Fixed angle " + angleRotation);
+            //Debug.Log(" Fixed angle " + angleRotation);
 
             //Convert rotation to 1st Quadrant
             angleRotation += 180;
@@ -243,14 +243,14 @@ public class Projectile : MonoBehaviour
 
         if (!IsInvoking("NotifyEndTurn"))
         {
-            GameManager.Instance.LostAttempt();
             Invoke("NotifyEndTurn", 1.5f);
         }
     }
 
     void NotifyEndTurn()
     {
-        Destroy(this.gameObject);
+        GameManager.Instance.LostAttempt(); //needs to be called before call to GM
         GameManager.Instance.EndTurn();
+        Destroy(this.gameObject);
     }
 }
