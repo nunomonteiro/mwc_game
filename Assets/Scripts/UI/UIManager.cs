@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour {
 
     [SerializeField]
     private GameObject _preGameScreenObj;
+    private PreGameScreen _preGameScreen;
 
     [SerializeField]
     private GameObject _gameScreenObj;
@@ -59,6 +60,7 @@ public class UIManager : MonoBehaviour {
         _attemptsUI = new List<GameObject>();
         _endScreen = _endScreenObj.GetComponent<EndScreen>();
         _leaderboardScreen = _leaderboardScreenObj.GetComponent<LeaderboardScreen>();
+        _preGameScreen = _preGameScreenObj.GetComponent<PreGameScreen>();
 
         //disable all screens
         _mainScreenObj.SetActive(false);
@@ -108,6 +110,7 @@ public class UIManager : MonoBehaviour {
 
     public void GoToPreGame() {
         ChangeState(ScreenState.PRE_GAME);
+        _preGameScreen.Setup(); //Needs to happen AFTER change state so that the obj is active
     }
 
     public void GoToGame(int totalAttempts)

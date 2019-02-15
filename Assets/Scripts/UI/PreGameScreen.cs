@@ -23,12 +23,13 @@ public class PreGameScreen : MonoBehaviour {
     [SerializeField]
     private TextMeshProUGUI _textYourApps;
 
+    private float _timeBetweenNumbers = 0.75f;
 
-    // Use this for initialization
-	void Start () {
+    public void Setup() {
+        StopAllCoroutines();
         StartCoroutine("ShowGameCountdown");
-	}
-	
+    }
+
     IEnumerator ShowGameCountdown() {
         //Setup. gradient background and image on, all the rest off
         _numberImg.gameObject.SetActive(true);
@@ -38,11 +39,11 @@ public class PreGameScreen : MonoBehaviour {
         _textYourApps.gameObject.SetActive(false);
 
         _numberImg.sprite = _numbers[0];
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(_timeBetweenNumbers);
         _numberImg.sprite = _numbers[1];
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(_timeBetweenNumbers);
         _numberImg.sprite = _numbers[2];
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(_timeBetweenNumbers);
 
         //Setup. gradient background and image off, clean background and text on
         _numberImg.gameObject.SetActive(false);
@@ -51,7 +52,7 @@ public class PreGameScreen : MonoBehaviour {
         _textUnleash.gameObject.SetActive(true);
         _textYourApps.gameObject.SetActive(true);
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(_timeBetweenNumbers * 2);
 
         GameManager.Instance.StartGame();
         yield break;
