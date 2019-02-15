@@ -63,13 +63,14 @@ public class EndScreen : MonoBehaviour {
 
         RewardsController rewardsController = GameManager.Instance.GetRewardsController();
 
-        int timeScore = ((int)rewardsController.timeLeft) * GameManager.Instance.scoreFromTime;
         int advantage1Score = rewardsController.ScoreForRing(1);
         int advantage2Score = rewardsController.ScoreForRing(2);
         int advantage3Score = rewardsController.ScoreForRing(3);
+        int portalTotalScore = advantage1Score + advantage2Score + advantage3Score;
 
+        int timeScore = portalTotalScore > 0 ? ((int)rewardsController.timeLeft) * GameManager.Instance.scoreFromTime : 0; //Only count if throws were made
         int livesLeft = GameManager.Instance.GetAttemptsLeft();
-        int livesScore = livesLeft * GameManager.Instance.scoreFromLives;
+        int livesScore = portalTotalScore > 0 ? livesLeft * GameManager.Instance.scoreFromLives : 0; //Only count if throws were made
 
         _txtTimeScore.text = "x " + timeScore.ToString();
         _txtLivesScore.text = "x " + livesScore.ToString();
@@ -97,7 +98,7 @@ public class EndScreen : MonoBehaviour {
         SolveScoreForAdvantage(advantage2Score, _imgAdvantage2, _txtAdvantage2Score);
         SolveScoreForAdvantage(advantage3Score, _imgAdvantage3, _txtAdvantage3Score);
 
-        int finalScore = timeScore + advantage1Score + advantage2Score + advantage3Score + livesScore;
+        int finalScore = timeScore + portalTotalScore + livesScore;
         GameManager.Instance.UpdateLatestScore(finalScore);
         _txtFinalScore.text = "x " + finalScore.ToString();
     }

@@ -214,7 +214,7 @@ public class GameManager : Singleton<GameManager> {
         }
 
         //FIX ME The offset is not working! 
-        Vector3 posWithOffset = ring.transform.position + new Vector3(0, 2f, 0);
+        Vector3 posWithOffset = ring.transform.position + new Vector3(0, 0f, 0);
         Vector2 pos = WorldToCanvasPosition(_canvas, _canvasRect, Camera.main, posWithOffset);
         GameObject msg = UIMessageSpawner.SpawnMessageOnPositionUsingPrefab(pos, _ringMsgPrefab, _canvasRect);
 
