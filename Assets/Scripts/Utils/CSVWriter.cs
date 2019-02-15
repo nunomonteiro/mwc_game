@@ -30,6 +30,11 @@ public class CSVWriter : MonoBehaviour
             outStream = new StreamWriter(GetPath(filenameNoExtension),true);
         }
 
+        string line = CreateLineEntry(values);
+
+        outStream.WriteLine(line);
+        outStream.Close();
+
         //Check if file exists, if it doesn't create it and add first line
         if (!System.IO.File.Exists(GetPath(backupFilename)))
         {
@@ -41,14 +46,9 @@ public class CSVWriter : MonoBehaviour
             outStreamBackup = new StreamWriter(GetPath(backupFilename), true);
         }
 
-        string line = CreateLineEntry(values);
-        
-        outStream.WriteLine(line);
-
         line = CreateBackupLineEntry(values);
 
         outStreamBackup.WriteLine(line);
-        outStream.Close();
         outStreamBackup.Close();
     }
 
@@ -87,11 +87,11 @@ public class CSVWriter : MonoBehaviour
 #if UNITY_EDITOR
         return Application.dataPath+"/" + filename + ".csv";
 #elif UNITY_ANDROID
-        return Application.persistentDataPath + filenameNoExtension + ".csv";
+        return Application.persistentDataPath + filename + ".csv";
 #elif UNITY_IPHONE
-        return Application.persistentDataPath+"/"+ filenameNoExtension + ".csv";
+        return Application.persistentDataPath+"/"+ filename + ".csv";
 #else
-        return Application.dataPath +"/"+ filenameNoExtension + ".csv";
+        return Application.dataPath +"/"+ filename + ".csv";
 #endif
     }
 }

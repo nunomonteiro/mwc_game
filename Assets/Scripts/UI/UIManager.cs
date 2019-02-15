@@ -128,7 +128,7 @@ public class UIManager : MonoBehaviour {
         _remainingAttempts = totalAttempts;
 
         //Create attempt prefabs and add them to attempts parent
-        for (int i = 0; i < totalAttempts; i++) {
+        for (int i = 0; i < totalAttempts - 1; i++) {
             GameObject attempt = Instantiate(_attemptPrefab, _attemptsParent) as GameObject;
             _attemptsUI.Add(attempt);
         }

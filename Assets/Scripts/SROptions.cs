@@ -12,4 +12,9 @@ public partial class SROptions
     {
         GameManager.Instance.ClearLeaderboardEntries();
     }
+
+    [Category("General")]
+    public void Quit() {
+        Application.Quit();
+    }
 }
