@@ -11,7 +11,8 @@ public enum GameState {
     LEADERBOARD,
 }
 
-public class GameManager : Singleton<GameManager> {
+public class GameManager : Singleton<GameManager>
+{
 
     public int TotalTime;
     public int TotalAttempts;
@@ -45,6 +46,7 @@ public class GameManager : Singleton<GameManager> {
     private GameState _state;
     private int _gameStartTime;
     private int _latestScore;
+    private int _currentScore;
     private bool _touchedBarrier;
     private Spawner _spawner;
 
@@ -63,7 +65,7 @@ public class GameManager : Singleton<GameManager> {
         GoToMainMenu();
         _canvasRect = _canvas.GetComponent<RectTransform>();
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
         if (_uiManager.TimeHasEnded() && _state != GameState.END_SCREEN)
@@ -72,16 +74,19 @@ public class GameManager : Singleton<GameManager> {
         }
     }
 
-    void ChangeState(GameState state) {
+    void ChangeState(GameState state)
+    {
         _state = state;
     }
 
-    public void StartCountdown() {
+    public void StartCountdown()
+    {
         _uiManager.GoToPreGame();
     }
 
     public void StartGame()
     {
+         ResetScore();
         _rewardsController.Reset();
 
         _amountAttempts = TotalAttempts;
@@ -96,7 +101,8 @@ public class GameManager : Singleton<GameManager> {
         ChangeState(GameState.GAME);
     }
 
-    void StartTurn() {
+    void StartTurn()
+    {
         _spawner.SpawnProjectile();
         _currentAttempt = new Attempt();
 
@@ -104,25 +110,29 @@ public class GameManager : Singleton<GameManager> {
         _wentThroughRing1 = false;
         _wentThroughRing2 = false;
         _wentThroughRing3 = false;
-    }   
+    }
 
-    public void LostAttempt() {
+    public void LostAttempt()
+    {
         _uiManager.LostAttempt();
         _amountAttempts--;
     }
 
-    public void EndTurn() {
+    public void EndTurn()
+    {
         _rewardsController.AddNewAttempt(_currentAttempt);
 
         bool allRingsHit = (_rewardsController.TimesCaughtRing1() > 0) && (_rewardsController.TimesCaughtRing2() > 0) && (_rewardsController.TimesCaughtRing3() > 0);
         if (_amountAttempts <= 0 || allRingsHit)
             EndGame();
-        else {
+        else
+        {
             StartTurn();
         }
     }
 
-    void EndGame() {
+    void EndGame()
+    {
         Destroy(_gameInstance);
 
         _rewardsController.timeLeft = (int)_uiManager.GetTimeLeft();
@@ -140,17 +150,25 @@ public class GameManager : Singleton<GameManager> {
         _uiManager.GoToEndScreen();
     }
 
-    public void GoToScoreSubmission() {
+    public int GetLatestScore()
+    {
+        return _latestScore;
+    }
+
+    public void GoToScoreSubmission()
+    {
         ChangeState(GameState.LEADERBOARD);
         _uiManager.GoToLeaderboard(_latestScore);
     }
 
-    public void GoBack() {
+    public void GoBack()
+    {
         //TODO don't setup menu again
         _uiManager.GoBackToEndScreen();
     }
 
-    public ScoreManager GetScoreManager() {
+    public ScoreManager GetScoreManager()
+    {
         return _scoreManager;
     }
 
@@ -159,13 +177,15 @@ public class GameManager : Singleton<GameManager> {
         return _uiManager;
     }
 
-    public void OnTouchedBarrier(GameObject colliderObj) {
+    public void OnTouchedBarrier(GameObject colliderObj)
+    {
         _touchedBarrier = true;
         Barrier barrier = colliderObj.GetComponentInParent<Barrier>();
-        if (barrier != null) {
+        if (barrier != null)
+        {
             barrier.OnProjectileCollision();
 
-            Vector3 posWithOffset = colliderObj.transform.position + new Vector3(-1.5f,-2f,0);
+            Vector3 posWithOffset = colliderObj.transform.position + new Vector3(-1.5f, -2f, 0);
             Vector2 pos = WorldToCanvasPosition(_canvas, _canvasRect, Camera.main, posWithOffset);
             GameObject msg = UIMessageSpawner.SpawnMessageOnPositionUsingPrefab(pos, _barrierMsgPrefab, _canvasRect);
             UIMessage uiMsg = msg.GetComponent<UIMessage>();
@@ -182,7 +202,7 @@ public class GameManager : Singleton<GameManager> {
         int pointsAwarded = 0;
         string powerUpMessage = "";
 
-        if (ring.name.Contains("ring1")) 
+        if (ring.name.Contains("ring1"))
         {
             //Avoid double triggers
             if (_wentThroughRing1)
@@ -191,6 +211,8 @@ public class GameManager : Singleton<GameManager> {
             pointsAwarded = scoreFromRing1;
             powerUpMessage = "81% Power-Up";
             _wentThroughRing1 = true;
+            _currentScore += pointsAwarded;
+            GetUIManager().UpdateScore(_currentScore);
         }
         else if (ring.name.Contains("ring2"))
         {
@@ -201,6 +223,8 @@ public class GameManager : Singleton<GameManager> {
             pointsAwarded = scoreFromRing2;
             powerUpMessage = "POA Power-Up";
             _wentThroughRing2 = true;
+            _currentScore += pointsAwarded;
+            GetUIManager().UpdateScore(_currentScore);
         }
         else if (ring.name.Contains("ring3"))
         {
@@ -211,9 +235,11 @@ public class GameManager : Singleton<GameManager> {
             pointsAwarded = scoreFromRing3;
             powerUpMessage = "Unity Power-Up";
             _wentThroughRing3 = true;
+            _currentScore += pointsAwarded;
+            GetUIManager().UpdateScore(_currentScore);
         }
 
-        //FIX ME The offset is not working! 
+        //FIX ME The offset is not working!
         Vector3 posWithOffset = ring.transform.position + new Vector3(0, 0f, 0);
         Vector2 pos = WorldToCanvasPosition(_canvas, _canvasRect, Camera.main, posWithOffset);
         GameObject msg = UIMessageSpawner.SpawnMessageOnPositionUsingPrefab(pos, _ringMsgPrefab, _canvasRect);
@@ -224,28 +250,34 @@ public class GameManager : Singleton<GameManager> {
         //TODO update score label
     }
 
-    public RewardsController GetRewardsController() {
+    public RewardsController GetRewardsController()
+    {
         return _rewardsController;
     }
 
-    public Transform GetGameInstanceRoot() {
+    public Transform GetGameInstanceRoot()
+    {
         if (_gameInstance != null)
             return _gameInstance.transform;
         return null;
     }
 
-    public void ClearLeaderboardEntries() {
-        if (_scoreManager != null) {
+    public void ClearLeaderboardEntries()
+    {
+        if (_scoreManager != null)
+        {
             _scoreManager.DeleteScoresFile();
         }
 
         //Check if we're in the leaderboard screen and immediately update it
-        if (_state == GameState.LEADERBOARD) {
+        if (_state == GameState.LEADERBOARD)
+        {
             GetUIManager().RefreshLeaderboard();
         }
     }
 
-    public int GetAttemptsLeft() {
+    public int GetAttemptsLeft()
+    {
         return _amountAttempts;
     }
 
@@ -258,17 +290,26 @@ public class GameManager : Singleton<GameManager> {
         return canvas.transform.TransformPoint(result);
     }
 
-    public int GetAppcoinsRewardForPlace(int place) {
+    public int GetAppcoinsRewardForPlace(int place)
+    {
         if (place > 5)
             return 0;
         return _appcoinRewards[place - 1];
     }
 
-    public void GoToMainMenu() {
+    public void ResetScore()
+    {
+        _currentScore = 0;
+        GetUIManager().UpdateScore(_currentScore);
+    }
+
+    public void UpdateLatestScore(int score)
+    {
+        _latestScore = score;
+    }
+
+public void GoToMainMenu() {
         _uiManager.GoToMainMenu();
     }
 
-    public void UpdateLatestScore(int score) {
-        _latestScore = score;
-    }
 }
