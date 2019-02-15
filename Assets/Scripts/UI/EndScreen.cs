@@ -103,7 +103,7 @@ public class EndScreen : MonoBehaviour {
     }
 
     public void OnRetryButtonPressed() {
-        GameManager.Instance.StartGame();   
+        GameManager.Instance.StartGame();
     }
 
     public void OnNewGameButtonPressed()
