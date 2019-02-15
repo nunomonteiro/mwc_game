@@ -6,6 +6,10 @@ using TMPro;
 
 public class EndScreen : MonoBehaviour {
     [SerializeField]
+    private Image _timerImg;
+    [SerializeField]
+    private Sprite[] _timerImages;
+    [SerializeField]
     private GameObject[] _liveImages;
     [SerializeField]
     private Sprite activeAdvantageSprite;
@@ -14,8 +18,6 @@ public class EndScreen : MonoBehaviour {
 
     [SerializeField]
     private GameObject _btnSubmitScore;
-    [SerializeField]
-    private GameObject _btnScoreSubmitted;
 
     [SerializeField]
     private TextMeshProUGUI _txtFinalScore;
@@ -78,6 +80,7 @@ public class EndScreen : MonoBehaviour {
         //Disable the images according to amount of lives left
         switch(livesLeft) {
             case 0:
+            case 3:
                 _liveImages[0].SetActive(false);
                 _liveImages[1].SetActive(false);
                 _liveImages[2].SetActive(true); //This one is greyd out
@@ -97,6 +100,12 @@ public class EndScreen : MonoBehaviour {
         SolveScoreForAdvantage(advantage1Score, _imgAdvantage1, _txtAdvantage1Score);
         SolveScoreForAdvantage(advantage2Score, _imgAdvantage2, _txtAdvantage2Score);
         SolveScoreForAdvantage(advantage3Score, _imgAdvantage3, _txtAdvantage3Score);
+
+        if (timeScore == 0) {
+            _timerImg.sprite = _timerImages[0];
+        } else {
+            _timerImg.sprite = _timerImages[1];
+        }
 
         int finalScore = timeScore + portalTotalScore + livesScore;
         GameManager.Instance.UpdateLatestScore(finalScore);

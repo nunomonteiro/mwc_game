@@ -96,6 +96,10 @@ public class GameManager : Singleton<GameManager>
         _gameInstance = (GameObject)Instantiate(_gamePrefab, _gamePrefab.transform.position, _gamePrefab.transform.rotation);
         _spawner = _gameInstance.GetComponentInChildren<Spawner>();
 
+        _wentThroughRing1 = false;
+        _wentThroughRing2 = false;
+        _wentThroughRing3 = false;
+
         StartTurn();
 
         ChangeState(GameState.GAME);
@@ -107,9 +111,9 @@ public class GameManager : Singleton<GameManager>
         _currentAttempt = new Attempt();
 
         _touchedBarrier = false;
-        _wentThroughRing1 = false;
-        _wentThroughRing2 = false;
-        _wentThroughRing3 = false;
+        //_wentThroughRing1 = false;
+        //_wentThroughRing2 = false;
+        //_wentThroughRing3 = false;
     }
 
     public void LostAttempt()
