@@ -93,12 +93,13 @@ public class EndScreen : MonoBehaviour {
                 break;
         }
 
-
         SolveScoreForAdvantage(advantage1Score, _imgAdvantage1, _txtAdvantage1Score);
         SolveScoreForAdvantage(advantage2Score, _imgAdvantage2, _txtAdvantage2Score);
         SolveScoreForAdvantage(advantage3Score, _imgAdvantage3, _txtAdvantage3Score);
 
-        _txtFinalScore.text = "x " + (timeScore + advantage1Score + advantage2Score + advantage3Score + livesScore).ToString();
+        int finalScore = timeScore + advantage1Score + advantage2Score + advantage3Score + livesScore;
+        GameManager.Instance.UpdateLatestScore(finalScore);
+        _txtFinalScore.text = "x " + finalScore.ToString();
     }
 
     public void OnRetryButtonPressed() {

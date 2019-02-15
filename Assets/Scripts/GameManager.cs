@@ -65,7 +65,7 @@ public class GameManager : Singleton<GameManager>
         GoToMainMenu();
         _canvasRect = _canvas.GetComponent<RectTransform>();
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
         if (_uiManager.TimeHasEnded() && _state != GameState.END_SCREEN)
@@ -239,7 +239,7 @@ public class GameManager : Singleton<GameManager>
             GetUIManager().UpdateScore(_currentScore);
         }
 
-        //FIX ME The offset is not working! 
+        //FIX ME The offset is not working!
         Vector3 posWithOffset = ring.transform.position + new Vector3(0, 2f, 0);
         Vector2 pos = WorldToCanvasPosition(_canvas, _canvasRect, Camera.main, posWithOffset);
         GameObject msg = UIMessageSpawner.SpawnMessageOnPositionUsingPrefab(pos, _ringMsgPrefab, _canvasRect);
@@ -308,4 +308,3 @@ public class GameManager : Singleton<GameManager>
     }
 
 }
-

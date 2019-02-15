@@ -34,6 +34,10 @@ public class ScoreManager : MonoBehaviour {
     }
 
     public void PostNewScore(string name, string mail, int score, bool wantsMore) {
+        //NOTE: Make strings safe by removing commas
+        name = name.Replace(",", ".");
+        mail = mail.Replace(",", ".");
+
 
         string[] values = new string[4];
         values[0] = name;
