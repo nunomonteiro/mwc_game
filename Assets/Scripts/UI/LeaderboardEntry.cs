@@ -21,6 +21,8 @@ public class LeaderboardEntry : MonoBehaviour {
     [SerializeField]
     private GameObject _appcoinsContainer;
 
+    private static readonly int MAX_LENGHT = 25;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -33,7 +35,7 @@ public class LeaderboardEntry : MonoBehaviour {
 
     public void SetupWithScoreEntry(int place, CSVScoreEntry entry) {
         _txtPlace.text = place.ToString();
-        _txtName.text = entry.name;
+        _txtName.text = entry.name.Substring(0, MAX_LENGHT);
         _txtScore.text = entry.score.ToString();
 
         if (place > 5)

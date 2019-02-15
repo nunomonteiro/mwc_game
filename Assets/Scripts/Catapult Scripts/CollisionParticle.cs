@@ -15,8 +15,8 @@ public class CollisionParticle : MonoBehaviour {
         _isColliding = true;
 
         // Spawn Effect, then remove Script
-        Instantiate(effect, transform.position, Quaternion.identity);
-        //Destroy(this.gameObject);
+        GameObject particle = Instantiate(effect, transform.position, Quaternion.identity) as GameObject;
+        Destroy(particle,1f);
     }
 
     //void OnCollisionExit2D(Collision2D coll) {
