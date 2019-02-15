@@ -17,7 +17,7 @@ public class Projectile : MonoBehaviour
     float distance;
     bool pressed, shoot, firstpoint;
     public Vector2 inputPoint;
-    public Vector2 lastPoint;
+    public Vector2 lastPoint = Vector2.zero;
 
     // Use this for initialization
     void Start()
@@ -53,7 +53,11 @@ public class Projectile : MonoBehaviour
 
     private void _pointToTrajectory()
     {
-        Arrow.SetActive(true);
+        if(lastPoint != Vector2.zero)
+        {
+            Arrow.SetActive(true);
+        }
+
 
         //Get the first inputPoint
         Vector2 p = Camera.main.ScreenToWorldPoint(Input.mousePosition);
