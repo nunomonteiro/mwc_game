@@ -16,6 +16,7 @@ public class ScoreManager : MonoBehaviour {
 
     private SendToGoogle _sendToGoogle;
     private CSVWriter _csvWriter;
+
     private List<CSVScoreEntry> _sortedScores;
 
 	// Use this for initialization
@@ -26,12 +27,6 @@ public class ScoreManager : MonoBehaviour {
 
         LoadScores();
 	}
-	
-    void Test() {
-        PostNewScore("Nuno Monteiro", "mail@mail.com", 999, true);
-        PostNewScore("Bruno Varela", "mail2@mail.com", 998, false);
-        PostNewScore("Mikie Ribeiro", "mail3@mail.com", 997, false);
-    }
 
     public void PostNewScore(string name, string mail, int score, bool wantsMore) {
         //NOTE: Make strings safe by removing commas
@@ -61,10 +56,11 @@ public class ScoreManager : MonoBehaviour {
         //    ;
         //    //            StartCoroutine(GoogleSheetsDataFetcher.DownloadCSVCoroutine(SCORE_DOC_ID, commCallback, true, LOCAL_FILENAME));    
         //} else {
-            //Check for file existence and load the stored scores;
-            if (System.IO.File.Exists(_csvWriter.GetPath()))
+        //Check for file existence and load the stored scores;
+        string filename = _csvWriter.filenameNoExtension;
+        if (System.IO.File.Exists(_csvWriter.GetPath(filename)))
             {
-                StreamReader reader = new StreamReader(_csvWriter.GetPath());
+            StreamReader reader = new StreamReader(_csvWriter.GetPath(filename));
 
                 reader.ReadLine(); //Discard first line because it's the csv columns names
                 while (true)
@@ -107,8 +103,9 @@ public class ScoreManager : MonoBehaviour {
     }
 
     public void DeleteScoresFile() {
-        if (System.IO.File.Exists(_csvWriter.GetPath())) {
-            System.IO.File.Delete(_csvWriter.GetPath());
+        string filename = _csvWriter.filenameNoExtension;
+        if (System.IO.File.Exists(_csvWriter.GetPath(filename))) {
+            System.IO.File.Delete(_csvWriter.GetPath(filename));
         }
     }
 }
