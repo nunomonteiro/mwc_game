@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class Projectile : MonoBehaviour {
+public class Projectile : MonoBehaviour
+{
 
     // The default Position
     Vector2 startPos;
@@ -52,26 +53,43 @@ public class Projectile : MonoBehaviour {
 
     private void _pointToTrajectory()
     {
-            Arrow.SetActive(true);
+        Arrow.SetActive(true);
 
-            //Get the first inputPoint
-            Vector2 p = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            if (!firstpoint)
+        //Get the first inputPoint
+        Vector2 p = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (!firstpoint)
+        {
+            firstpoint = true;
+            inputPoint = p;
+        }
+
+        //Calculate the vector
+        difference = (p - new Vector2(inputPoint.x, inputPoint.y)).normalized;
+
+        _activateDistancePointers();
+
+        // Calculate the angle of the input
+        float angleRotation = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
+
+        Debug.Log("difference " + difference + " angle " + angleRotation);
+
+        if (difference.x > 0 && difference.y > 0)
+        {
+            //Quadrant 1    
+            if (angleRotation >= 90)
             {
-                firstpoint = true;
-                inputPoint = p;
+                angleRotation = 180 - angleRotation;
+            }
+            else if (angleRotation >= 180)
+            {
+                angleRotation = 270 - angleRotation;
+            }
+            else if (angleRotation >= 270)
+            {
+                angleRotation = 360 - angleRotation;
             }
 
-            //Calculate the vector
-            difference = (p - new Vector2(inputPoint.x, inputPoint.y)).normalized;
-
-            difference = new Vector2(Mathf.Abs(difference.x), Mathf.Abs(difference.y));
-
-            _activateDistancePointers();
-
-            // Calculate the angle of the input
-            float angleRotation = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
-
+            Debug.Log(" Fixed angle " + angleRotation);
 
             //Guard to check to not allow the user for strange angles.
             if (angleRotation > MiminimumAngle && angleRotation < MaxAngle)
@@ -90,7 +108,30 @@ public class Projectile : MonoBehaviour {
                 }
             }
             lastPoint = p;
+        }
+        else if (difference.x < 0 && difference.y < 0)
+        {
+            //Quadrant 3
+            if (angleRotation > 0)
+            {
+                angleRotation = -angleRotation;
+            }
+            if (angleRotation > -90)
+            {
+                angleRotation -= 90;
+            }
 
+            Debug.Log(" Fixed angle " + angleRotation);
+
+            //Convert rotation to 1st Quadrant
+            angleRotation += 180;
+            Arrow.transform.rotation = Quaternion.Euler(0f, 0f, angleRotation - 45);
+
+            lastPoint = p;
+
+            difference = new Vector2(Mathf.Abs(difference.x), Mathf.Abs(difference.y));
+
+        }
     }
 
     private void _shootApp()
@@ -107,7 +148,7 @@ public class Projectile : MonoBehaviour {
 
     float _forceCalculator(Vector2 dir)
     {
-        if (distance > 10 )
+        if (distance > 10)
         {
             return 1400;
         }
@@ -180,9 +221,9 @@ public class Projectile : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
-        {
+    {
         if (collision.CompareTag("Ring"))
-        //Debug.Log("============================================== Fiz trigger ==============================================");
+            //Debug.Log("============================================== Fiz trigger ==============================================");
             GameManager.Instance.WentThroughRing(collision.gameObject);
     }
 
@@ -196,7 +237,8 @@ public class Projectile : MonoBehaviour {
 
         _isColliding = true;
 
-        if (!IsInvoking("NotifyEndTurn")) {
+        if (!IsInvoking("NotifyEndTurn"))
+        {
             GameManager.Instance.LostAttempt();
             Invoke("NotifyEndTurn", 1.5f);
         }
