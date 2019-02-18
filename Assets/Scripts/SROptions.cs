@@ -18,16 +18,16 @@ public partial class SROptions
         Application.Quit();
     }
 
-    [Category("Config")]
-    public int Force
-    {
-        get { return GameManager.Instance.MaxForce; }
-        set { GameManager.Instance.MaxForce = value; }
-    }
+    //[Category("Config")]
+    //public int Force
+    //{
+    //    get { return GameManager.Instance.MaxForce; }
+    //    set { GameManager.Instance.MaxForce = value; }
+    //}
 
-    public int Distance
-    {
-        get { return GameManager.Instance.MaxDistance; }
-        set { GameManager.Instance.MaxDistance = value; }
-    }
+    //public int Distance
+    //{
+    //    get { return GameManager.Instance.MaxDistance; }
+    //    set { GameManager.Instance.MaxDistance = value; }
+    //}
 }

@@ -4795,46 +4795,6 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4773353084356664, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
-      propertyPath: m_RootOrder
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 4321830085838842, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4932734123534982, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4018013317303688, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
-      propertyPath: m_RootOrder
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 4120585692312260, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4888943629592506, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
-      propertyPath: m_RootOrder
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4731791019783316, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4679808388519232, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4784668672710712, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4419821169947124, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad8f778d4e1654a0a999fe9403037d0b, type: 2}
   m_IsPrefabAsset: 0
@@ -8259,12 +8219,12 @@ Prefab:
     - target: {fileID: 114966119582492038, guid: 6436556c2e57b4df684c3f79e40ce495,
         type: 2}
       propertyPath: m_text
-      value: No GP + no ad fraud = super effective user acquisition
+      value: No GP + no ad fraud = super effective user acquisition.
       objectReference: {fileID: 0}
     - target: {fileID: 114966119582492038, guid: 6436556c2e57b4df684c3f79e40ce495,
         type: 2}
       propertyPath: m_textInfo.characterCount
-      value: 54
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 114966119582492038, guid: 6436556c2e57b4df684c3f79e40ce495,
         type: 2}
