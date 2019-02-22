@@ -26,6 +26,9 @@ public class GameManager : Singleton<GameManager>
     public int MaxForce;
 
     [SerializeField]
+    private GameObject _trailPrefab;
+
+    [SerializeField]
     private int[] _appcoinRewards;
 
     [SerializeField]
@@ -60,19 +63,22 @@ public class GameManager : Singleton<GameManager>
     private bool _wentThroughRing2 = false;
     private bool _wentThroughRing3 = false;
 
-	// Use this for initialization
-    protected override void Awake() {
+    private bool _hasFullTrajectory = false;
+
+    // Use this for initialization
+    protected override void Awake()
+    {
         base.Awake();
 
         Application.targetFrameRate = 60;
 
-        //_uiManager.StartTimer(TotalTime); //FIX THIS BETTER
         GoToMainMenu();
         _canvasRect = _canvas.GetComponent<RectTransform>();
-	}
+    }
 
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update()
+    {
         if (_uiManager.TimeHasEnded() && _state != GameState.END_SCREEN)
         {
             EndGame();
@@ -91,7 +97,7 @@ public class GameManager : Singleton<GameManager>
 
     public void StartGame()
     {
-         ResetScore();
+        ResetScore();
         _rewardsController.Reset();
 
         _amountAttempts = TotalAttempts;
@@ -116,9 +122,6 @@ public class GameManager : Singleton<GameManager>
         _currentAttempt = new Attempt();
 
         _touchedBarrier = false;
-        //_wentThroughRing1 = false;
-        //_wentThroughRing2 = false;
-        //_wentThroughRing3 = false;
     }
 
     public void LostAttempt()
@@ -317,15 +320,62 @@ public class GameManager : Singleton<GameManager>
         _latestScore = score;
     }
 
-public void GoToMainMenu() {
+    public void GoToMainMenu()
+    {
         _uiManager.GoToMainMenu();
     }
 
-    public void DebugNoBarriers() {
+    public void DebugNoBarriers()
+    {
 
         foreach (GameObject fooObj in GameObject.FindGameObjectsWithTag("Obstacle"))
         {
             fooObj.SetActive(false);
         }
+    }
+
+    #region Trajectory Plot
+    //public static Vector2[] Plot(Rigidbody2D rigidbody, Vector2 pos, Vector2 velocity, int steps)
+    //{
+    //    Vector2[] results = new Vector2[steps];
+
+    //    float timestep = Time.fixedDeltaTime / Physics2D.velocityIterations;
+    //    Vector2 gravityAccel = Physics2D.gravity * rigidbody.gravityScale * timestep * timestep;
+    //    float drag = 1f - timestep * rigidbody.drag;
+    //    Vector2 moveStep = velocity * timestep;
+
+    //    for (int i = 0; i < steps; ++i)
+    //    {
+    //        moveStep += gravityAccel;
+    //        moveStep *= drag;
+    //        pos += moveStep;
+    //        results[i] = pos;
+    //    }
+
+    //    return results;
+    //}
+
+    //public void PlotProjectileTrajectory(Rigidbody2D rigidbody, Vector2 initialPos, Vector2 force)
+    //{
+    //    Vector2[] results = Plot(rigidbody, initialPos, force, 10);
+
+    //    for (int i = 0; i < results.Length; i++)
+    //    {
+    //        Vector3 pos = new Vector3(results[i].x, results[i].y, 0);
+    //        GameObject trailObject = _trailObjects[i];
+    //        trailObject.SetActive(true);
+    //        trailObject.transform.position = pos;
+    //    }
+    //}
+
+    //public void HideTrajectoryPlot() {
+    //    for (int i = 0; i < _trailLength; i++) {
+    //        _trailObjects[i].SetActive(false);
+    //    }
+    //}
+#endregion
+
+    public void OnFullTrajectoryPurchased() {
+        _hasFullTrajectory = true;
     }
 }

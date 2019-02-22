@@ -716,10 +716,14 @@ PlayerSettings:
       daydreamIconForeground: {fileID: 0}
       daydreamIconBackground: {fileID: 0}
   cloudServicesEnabled:
+    Build: 0
+    Collab: 0
+    ErrorHub: 0
+    Hub: 0
     UNet: 1
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
-  cloudProjectId: 0c67a070-42a5-4b89-b492-f4849239634b
+  cloudProjectId: f5b7f58a-0855-4aa7-be76-e3356e6297fc
   projectName: Catappult
   organizationId: nuno-monteiro
   cloudEnabled: 0

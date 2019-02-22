@@ -153,7 +153,6 @@ public class Projectile : MonoBehaviour
         inputPoint = Vector2.zero;
         shoot = false;
         flying = true;
-
     }
 
 
