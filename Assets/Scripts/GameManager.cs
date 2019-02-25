@@ -13,7 +13,7 @@ public enum GameState {
 
 public class GameManager : Singleton<GameManager>
 {
-
+    public const string FULL_TRAJECTORY_KEY = "fullTrajectoryPurchased";
     public int TotalTime;
     public int TotalAttempts;
     public int scoreFromRing1;
@@ -377,5 +377,11 @@ public class GameManager : Singleton<GameManager>
 
     public void OnFullTrajectoryPurchased() {
         _hasFullTrajectory = true;
+        EncryptedPlayerPrefs.SetInt(FULL_TRAJECTORY_KEY, 1);
+        PlayerPrefs.Save();
+    }
+
+    public bool HasPurchasedFullTrajectory() {
+        return EncryptedPlayerPrefs.GetInt(FULL_TRAJECTORY_KEY) == 1;
     }
 }

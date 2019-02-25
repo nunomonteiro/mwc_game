@@ -137,7 +137,6 @@ public class Projectile : MonoBehaviour
             lastPoint = p;
 
             difference = new Vector2(Mathf.Abs(difference.x), Mathf.Abs(difference.y));
-
         }
     }
 
@@ -172,14 +171,12 @@ public class Projectile : MonoBehaviour
     {
         distance = Vector2.Distance(inputPoint, lastPoint);
 
-
-
         if (distance > maxDistance)
             distance = maxDistance;
 
-        int value = (int)((distance * 6) / (float)maxDistance + 0.5f);
+        int value = (int)((distance * MaxTrajectoryNodes()) / (float)maxDistance + 0.5f);
 
-        print("Value " + value);
+        //print("Value " + value);
 
 
         for (int i = 0 ; i < Arrow.transform.childCount; i++)
@@ -192,68 +189,6 @@ public class Projectile : MonoBehaviour
         {
             Arrow.transform.GetChild(i).gameObject.SetActive(true);
         }
-
-
-
-        //if (maxDistance >= distance)
-        //{
-        //    Arrow.transform.GetChild(0).gameObject.SetActive(true);
-        //    Arrow.transform.GetChild(1).gameObject.SetActive(true);
-        //    Arrow.transform.GetChild(2).gameObject.SetActive(true);
-        //    Arrow.transform.GetChild(3).gameObject.SetActive(true);
-        //    Arrow.transform.GetChild(4).gameObject.SetActive(true);
-        //    Arrow.transform.GetChild(5).gameObject.SetActive(true);
-        //}
-        //else if (maxDistance < distance &&
-        // distanceValue -alpha >= distance )
-        //{
-        //    Arrow.transform.GetChild(0).gameObject.SetActive(true);
-        //    Arrow.transform.GetChild(1).gameObject.SetActive(true);
-        //    Arrow.transform.GetChild(2).gameObject.SetActive(true);
-        //    Arrow.transform.GetChild(3).gameObject.SetActive(true);
-        //    Arrow.transform.GetChild(4).gameObject.SetActive(true);
-        //    Arrow.transform.GetChild(5).gameObject.SetActive(false);
-        //}
-        //else if (distanceValue - alpha < distance && distanceValue - (alpha+alpha) >= distance)
-        //{
-        //    Arrow.transform.GetChild(0).gameObject.SetActive(true);
-        //    Arrow.transform.GetChild(1).gameObject.SetActive(true);
-        //    Arrow.transform.GetChild(2).gameObject.SetActive(true);
-        //    Arrow.transform.GetChild(3).gameObject.SetActive(true);
-        //    Arrow.transform.GetChild(4).gameObject.SetActive(false);
-        //    Arrow.transform.GetChild(5).gameObject.SetActive(false);
-        //}
-        //else if (distanceValue - (alpha + alpha) < distance
-        //&& distanceValue - (alpha + alpha+alpha) >= distance)
-        //{
-        //    Arrow.transform.GetChild(0).gameObject.SetActive(true);
-        //    Arrow.transform.GetChild(1).gameObject.SetActive(true);
-        //    Arrow.transform.GetChild(2).gameObject.SetActive(true);
-        //    Arrow.transform.GetChild(3).gameObject.SetActive(false);
-        //    Arrow.transform.GetChild(4).gameObject.SetActive(false);
-        //    Arrow.transform.GetChild(5).gameObject.SetActive(false);
-        //}
-        //else if (distanceValue - (alpha + alpha + alpha) < distance
-        //&& distanceValue - (alpha + alpha + alpha + alpha) >= distance)
-        //{
-        //    Arrow.transform.GetChild(0).gameObject.SetActive(true);
-        //    Arrow.transform.GetChild(1).gameObject.SetActive(true);
-        //    Arrow.transform.GetChild(2).gameObject.SetActive(false);
-        //    Arrow.transform.GetChild(3).gameObject.SetActive(false);
-        //    Arrow.transform.GetChild(4).gameObject.SetActive(false);
-        //    Arrow.transform.GetChild(5).gameObject.SetActive(false);
-        //}
-        //else if (distanceValue - (alpha + alpha + alpha + alpha) < distance
-        //&& distanceValue - (alpha + alpha + alpha + alpha + alpha) >= distance)
-        //{
-        //    Arrow.transform.GetChild(0).gameObject.SetActive(true);
-        //    Arrow.transform.GetChild(1).gameObject.SetActive(false);
-        //    Arrow.transform.GetChild(2).gameObject.SetActive(false);
-        //    Arrow.transform.GetChild(3).gameObject.SetActive(false);
-        //    Arrow.transform.GetChild(4).gameObject.SetActive(false);
-        //    Arrow.transform.GetChild(5).gameObject.SetActive(false);
-        //}
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -287,5 +222,12 @@ public class Projectile : MonoBehaviour
         GameManager.Instance.EndTurn();
         flying = false;
         Destroy(this.gameObject);
+    }
+
+    int MaxTrajectoryNodes() {
+        if (GameManager.Instance.HasPurchasedFullTrajectory()) {
+            return Arrow.transform.childCount;
+        }
+        return 6;
     }
 }
