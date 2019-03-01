@@ -22,4 +22,9 @@ public class MainMenuScreen : MonoBehaviour {
     public void OnPlayButtonPressed() {
         GameManager.Instance.StartCountdown();
     }
+
+    public void OnPurchaseSuccessful() {
+        GameManager.Instance.OnFullTrajectoryPurchased();
+        _purchaseBtn.SetActive(false);
+    }
 }
