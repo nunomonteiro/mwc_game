@@ -15,7 +15,7 @@
 *.class
 
 # Generated files
-bin/
+#bin/
 gen/
 out/
 
@@ -262,7 +262,7 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
-[Bb]in/
+#[Bb]in/
 [Ll]og/
 
 # Visual Studio 2015/2017 cache/options directory
@@ -283,7 +283,7 @@ TestResult.xml
 # Build Results of an ATL Project
 [Dd]ebugPS/
 [Rr]eleasePS/
-dlldata.c
+
 
 # Benchmark Results
 BenchmarkDotNet.Artifacts/
