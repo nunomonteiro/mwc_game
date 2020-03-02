@@ -4,18 +4,19 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -107981364, guid: 2c3078f85c1a94a82b179c36ee13484f, type: 3}
   m_Name: UDP Settings
   m_EditorClassIdentifier: 
-  UnityProjectID: 505c9020-58f1-49a4-99a6-c8e1715e9a72
-  UnityClientID: Zk-KEhENlHnod_e6iAcMKQ
-  UnityClientKey: ySMAV9OlPZPwUBI7_WpN2IjnpGfuuzUVUlfBqiIlqqA
-  UnityClientRSAPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxi2OZsMxujZQiGZqC6iROFX3wBtrwpn9v01gFRI3+xT6qURg9bVpoSI5S69jNYDbeJNL8KXOkA64f5RlzTVV9aIiXgLGml0hxg5z2SqB8Fe5zZ+ylzXnt0ejU/paqyNzj+KYSXZ1ctqbs0PINnLUdT7q8RJtQfLLyIHMaHnnU305jYW3Mj3nlN/BBDlEbeLYdrKyjtJxoGH5hsA26TTfqG2w80uhWeGi4z7JeR2WqO0bIjjMzm+hOvVnNYXWGy/3vPPqBS0N0gbdq1cRR5QLOX038MbCI95NM7NXNzqMF57sltocSxzapK2JzlfUqL3hqASFxrJKEo/F0V3HehNvEwIDAQAB
-  AppName: Test-UDP-18-06-2019
-  AppSlug: 0e7bd37f-9734-4f86-833d-31637072b9b8
-  AppItemId: 274879467569
-  Permission: owner
+  UnityProjectID: 98cc222a-02d8-4e1c-a12c-6d47e923b466
+  UnityClientID: zuztZCXm9Z-ibUOx4ogf-Q
+  UnityClientKey: rWJqvNGM4c7w9N0YnHkvtlovU6ApxZNG1JBcS3TdPiQ
+  UnityClientRSAPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAn7lNZotsj3GWjadevkLToaLgbebJpujvB5PH8+sjc+PXPkcR0A+Om9AYYmlhYlkPYSiq9aKX9dzgJdUPQuRoe3YQtGF2k/uzEsB599dnsI2GgHbXAW0U8CStn6NQaXcNYNpU+7htSHOeqInLvBAM4oFO9Qykla+BTnVqYV0oQd18dOyLS9JOBpee5elWtH/3digoyI1AL5Vr82LfDkjcoT+l4tQrUaV6b5XxDwn0n2qZn4gNE8Lfdgs+X7tGBl9Klgxi3Um1gFsG9dJT0GhWEdfpjnA9UAPyCym+NS3gauPXcch5RBSoOHlBTVTcXoGVA9Lf4Kr55/4zKq5R4VJBqQIDAQAB
+  AppName: 98cc222a-02d8-4e1c-a12c-6d47e923b466
+  AppSlug: fab2ca5c-f4c0-4284-959c-c094df2086a6
+  AppItemId: 5e4aa78dd9ac3b002085617e
+  Permission: 
